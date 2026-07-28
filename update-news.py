@@ -108,6 +108,28 @@ def strip_html(s):
     s = re.sub(r"&[^;]+;", " ", s)
     return re.sub(r"\s+", " ", s).strip()
 
+def resolve_url(url):
+    """跟踪 Google News 包装链接的重定向，获取真实新闻 URL。
+    服务器在香港/海外可正常访问 Google，解析后国内用户可直接打开原文。"""
+    if not url or "news.google.com/rss/articles/" not in url:
+        return url
+    try:
+        class NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                raise urllib.error.HTTPError(newurl, code, msg, headers, fp)
+        opener = urllib.request.build_opener(NoRedirect)
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        opener.open(req, timeout=8)
+    except urllib.error.HTTPError as e:
+        # 301/302/307/308 重定向时 Location 即为真实 URL
+        if e.code in (301, 302, 303, 307, 308):
+            real = e.headers.get("Location", "")
+            if real and not real.startswith("https://news.google.com"):
+                return real
+    except Exception:
+        pass
+    return url  # 解析失败则保留原链接
+
 def collect():
     raw = []
     ok_sources = 0
@@ -144,7 +166,7 @@ def collect():
             "src": src or "公开新闻源",
             "c": categorize(title + desc),
             "heat": calc_heat(title, pub, src),
-            "url": it.get("link") or "#",
+            "url": resolve_url(it.get("link") or "#"),
             "d": pub.astimezone(CST).isoformat(),
         })
     out.sort(key=lambda x: x["heat"], reverse=True)
