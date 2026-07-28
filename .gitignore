@@ -1,0 +1,14 @@
+# 运行时生成的数据文件（由 update-news.py 每 15 分钟生成）
+data.json
+data.json.tmp
+
+# 日志
+*.log
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

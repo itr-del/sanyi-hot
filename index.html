@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三医改革热点观察 — 医疗·医保·医药协同改革资讯聚合</title>
+<meta name="description" content="三医改革热点新闻聚合平台：实时聚合医疗、医保、医药协同改革资讯，按热度排行，助力政策动态追踪。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23135aa8'/%3E%3Cpath d='M27 14h10v13h13v10H37v13H27V37H14V27h13z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#135aa8; --blue-deep:#0a3d7c; --navy:#0d2f5e; --ink:#1c2733;
+  --red:#c8161d; --red-soft:#e5484d; --gold:#d9a419;
+  --bg:#eef2f8; --card:#ffffff; --line:#dbe4ef; --muted:#5b6b7f;
+  --c-yiliao:#155bb5; --c-yibao:#0b7285; --c-yiyao:#9a4a12; --c-zonghe:#5b6472;
+  --serif:'Noto Serif SC','Source Han Serif SC','STSong','SimSun',serif;
+  --sans:'Noto Sans SC','Microsoft YaHei','PingFang SC','Helvetica Neue',sans-serif;
+  --shadow:0 2px 10px rgba(13,47,94,.07);
+  --shadow-h:0 10px 28px rgba(13,47,94,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans); color:var(--ink); background:var(--bg);
+  background-image:radial-gradient(rgba(19,90,168,.055) 1px, transparent 1px);
+  background-size:22px 22px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* ---------- 顶部信息条 ---------- */
+.topbar{background:var(--navy);color:#c9d8ec;font-size:12.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:34px}
+.topbar .date{letter-spacing:.5px;font-variant-numeric:tabular-nums}
+.topbar .links{display:flex;gap:18px}
+.topbar .links a{transition:color .2s}
+.topbar .links a:hover{color:#fff}
+
+/* ---------- 报头 ---------- */
+.masthead{
+  position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(120deg,#0a3d7c 0%,#135aa8 55%,#1a6bc4 100%);
+}
+.masthead::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 2px,transparent 2px 16px);
+}
+.masthead .mark{
+  position:absolute;right:-30px;top:50%;transform:translateY(-52%);
+  font-family:var(--serif);font-weight:900;font-size:230px;line-height:1;
+  color:rgba(255,255,255,.06);user-select:none;pointer-events:none;
+}
+.masthead .wrap{position:relative;display:flex;align-items:center;justify-content:space-between;padding:30px 20px 40px;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{width:62px;height:62px;flex:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,.25))}
+.brand h1{font-family:var(--serif);font-weight:900;font-size:36px;letter-spacing:3px;line-height:1.1}
+.brand h1 em{font-style:normal;color:#ffd666}
+.brand p{margin-top:7px;font-size:13.5px;color:#bcd6f2;letter-spacing:4px}
+.head-tools{display:flex;align-items:center;gap:12px}
+.status-pill{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);
+  padding:6px 13px;border-radius:999px;backdrop-filter:blur(4px);
+}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.live{background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:pulse 1.8s infinite}
+.dot.demo{background:#ffb020;box-shadow:0 0 0 0 rgba(255,176,32,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.refresh-btn{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#fff;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  padding:7px 15px;border-radius:6px;transition:background .2s,transform .15s;
+}
+.refresh-btn:hover{background:rgba(255,255,255,.28)}
+.refresh-btn:active{transform:scale(.96)}
+.refresh-btn svg{width:14px;height:14px}
+.refresh-btn.spin svg{animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ---------- 导航条 ---------- */
+.nav{background:var(--blue-deep);border-top:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(10,45,92,.25)}
+.nav .wrap{display:flex;align-items:stretch;gap:4px;height:46px}
+.nav a{
+  display:flex;align-items:center;padding:0 22px;color:#dbe8f7;font-size:15px;letter-spacing:1px;
+  position:relative;transition:color .2s,background .2s;
+}
+.nav a::after{content:'';position:absolute;left:22px;right:22px;bottom:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .25s;transform-origin:left}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav a:hover::after{transform:scaleX(1)}
+.nav .nav-tag{margin-left:auto;display:flex;align-items:center;font-size:12.5px;color:#9db8d9;letter-spacing:2px}
+
+/* ---------- 快讯 ---------- */
+.ticker{background:#fff;border-bottom:1px solid var(--line)}
+.ticker .wrap{display:flex;align-items:center;height:44px;gap:14px}
+.ticker-badge{
+  flex:none;display:inline-flex;align-items:center;gap:6px;
+  background:var(--red);color:#fff;font-size:13px;font-weight:700;letter-spacing:2px;
+  padding:4px 12px;border-radius:3px;font-family:var(--serif);
+}
+.ticker-badge i{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.ticker-clip{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.ticker-track{display:inline-flex;white-space:nowrap;gap:0;animation:tick 46s linear infinite;will-change:transform}
+.ticker-clip:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker-track a{font-size:14px;color:#33475e;padding:0 26px;position:relative;transition:color .2s}
+.ticker-track a:hover{color:var(--blue)}
+.ticker-track a::after{content:'◆';position:absolute;right:-6px;color:var(--red);font-size:9px;top:5px;opacity:.55}
+
+/* ---------- 数据速览 ---------- */
+.stats{margin-top:-26px;position:relative;z-index:5}
+.stats-grid{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-h);
+  display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;
+}
+.stat{padding:20px 24px;text-align:center;position:relative;transition:background .25s}
+.stat+.stat::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--line)}
+.stat:hover{background:#f6f9fd}
+.stat b{display:block;font-size:32px;font-weight:700;color:var(--blue-deep);font-variant-numeric:tabular-nums;letter-spacing:1px}
+.stat b .u{font-size:14px;font-weight:400;color:var(--muted);margin-left:3px}
+.stat span{display:block;margin-top:5px;font-size:12.5px;color:var(--muted);letter-spacing:2px}
+.stat.hot b{color:var(--red-soft)}
+
+/* ---------- 主体 ---------- */
+.main{display:grid;grid-template-columns:1fr 340px;gap:26px;padding:30px 0 10px;align-items:start}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.sec-h i{width:5px;height:20px;background:var(--red);border-radius:2px;align-self:center}
+.sec-h h2{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:2px;color:var(--navy)}
+.sec-h .sub{font-size:12.5px;color:var(--muted);letter-spacing:1px}
+.sec-h .sub.live-txt::before{content:'●';color:#3ddc84;margin-right:5px;font-size:9px;vertical-align:1px}
+
+/* 工具栏 */
+.toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  font-size:13.5px;padding:6px 16px;border-radius:999px;letter-spacing:1px;
+  border:1px solid var(--line);background:#fff;color:#41546c;
+  transition:all .2s;
+}
+.chip:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 3px 8px rgba(19,90,168,.3)}
+.toolbar .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.search{position:relative}
+.search input{
+  width:210px;padding:7px 12px 7px 32px;font-size:13.5px;border:1px solid var(--line);border-radius:6px;
+  background:#fff;outline:none;transition:border-color .2s,width .25s,box-shadow .2s;font-family:var(--sans);
+}
+.search input:focus{border-color:var(--blue);width:250px;box-shadow:0 0 0 3px rgba(19,90,168,.12)}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#8ba0b8}
+.sort-seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.sort-seg button{font-size:13px;padding:7px 13px;color:#5b6b7f;transition:all .2s;letter-spacing:1px}
+.sort-seg button.on{background:var(--navy);color:#fff}
+
+/* 新闻卡片 */
+.feed{display:flex;flex-direction:column;gap:14px}
+.card{
+  --cat:var(--c-yiliao);
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:18px 20px 16px 24px;position:relative;box-shadow:var(--shadow);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s;
+}
+.card.in{opacity:1;transform:none}
+.card::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 3px 3px 0;background:var(--cat);transition:width .2s}
+.card:hover{box-shadow:var(--shadow-h);border-color:#b9cbe2;transform:translateY(-3px)}
+.card:hover::before{width:6px}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.cat-tag{font-size:12px;color:#fff;background:var(--cat);padding:2.5px 10px;border-radius:3px;letter-spacing:2px}
+.heat-pill{
+  display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+  color:#d3302f;background:#fdecec;padding:2.5px 10px;border-radius:999px;font-variant-numeric:tabular-nums;
+}
+.heat-pill svg{width:12px;height:12px}
+.card h3{font-family:var(--serif);font-size:18.5px;font-weight:700;line-height:1.5;letter-spacing:.5px}
+.card h3 a{transition:color .2s}
+.card h3 a:hover{color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+.card .sum{margin-top:8px;font-size:14px;color:#54657b;line-height:1.75}
+.card .meta{margin-top:12px;display:flex;align-items:center;gap:16px;font-size:12.5px;color:#8496ab}
+.card .meta .src{color:var(--blue);font-weight:500}
+.heatbar{margin-left:auto;width:130px;height:5px;background:#eaeef5;border-radius:99px;overflow:hidden}
+.heatbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#f7b733,#e5484d);transition:width 1s .25s ease}
+.card.in .heatbar i{width:var(--w)}
+.empty{background:#fff;border:1px dashed var(--line);border-radius:8px;padding:52px 0;text-align:center;color:#8ba0b8;font-size:14.5px;letter-spacing:1px}
+.load-more{
+  margin:20px auto 6px;display:block;font-size:14px;letter-spacing:2px;color:var(--blue);
+  border:1px solid #b9cbe2;background:#fff;padding:10px 42px;border-radius:6px;transition:all .2s;
+}
+.load-more:hover{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(19,90,168,.3)}
+
+/* 骨架屏 */
+.sk{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px 24px}
+.sk .b{height:13px;border-radius:6px;background:linear-gradient(90deg,#eef2f8 25%,#e0e8f2 50%,#eef2f8 75%);background-size:200% 100%;animation:shim 1.3s infinite;margin-bottom:11px}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* ---------- 侧栏 ---------- */
+.side{display:flex;flex-direction:column;gap:22px;position:sticky;top:66px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.panel-h{
+  display:flex;align-items:center;gap:9px;padding:15px 18px;
+  background:linear-gradient(120deg,#0d3f7d,#135aa8);color:#fff;
+}
+.panel-h h3{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:3px}
+.panel-h .flame{width:17px;height:17px;color:#ffb020}
+.panel-h .badge{margin-left:auto;font-size:11px;letter-spacing:1px;background:rgba(255,214,102,.18);color:#ffd666;border:1px solid rgba(255,214,102,.4);padding:2px 9px;border-radius:99px}
+.rank-list{list-style:none;padding:8px 0}
+.rank-list li{opacity:0;transform:translateX(14px);transition:opacity .45s,transform .45s}
+.rank-list li.in{opacity:1;transform:none}
+.rank-list a{display:flex;align-items:center;gap:11px;padding:9.5px 18px;transition:background .2s,padding-left .2s}
+.rank-list a:hover{background:#f3f7fc;padding-left:23px}
+.rk{
+  flex:none;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#fff;background:#b6c2d1;font-variant-numeric:tabular-nums;
+}
+.rk.r1{background:var(--gold)} .rk.r2{background:#8a94a6} .rk.r3{background:#b0652e}
+.rank-list .t{flex:1;font-size:13.5px;line-height:1.45;color:#33475e;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rank-list a:hover .t{color:var(--blue)}
+.rank-list .h{flex:none;font-size:13px;font-weight:700;color:var(--red-soft);font-variant-numeric:tabular-nums}
+.panel .note{padding:10px 18px 14px;font-size:11.5px;color:#93a3b6;border-top:1px dashed var(--line);line-height:1.6}
+
+/* 关键词 */
+.tags{padding:16px 18px;display:flex;flex-wrap:wrap;gap:9px}
+.tag{
+  color:#3d5a80;background:#eef4fb;border:1px solid #d7e4f4;border-radius:4px;
+  padding:4px 11px;transition:all .2s;letter-spacing:.5px;
+}
+.tag:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+
+/* 关于侧栏 */
+.about-mini{padding:16px 18px;font-size:13px;color:#54657b;line-height:1.85}
+.about-mini b{color:var(--navy)}
+
+/* ---------- 说明区 ---------- */
+.about{padding:26px 0 46px}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.about-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:8px;padding:22px 24px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.about-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.about-card h4{font-family:var(--serif);font-size:16.5px;color:var(--navy);letter-spacing:2px;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.about-card h4::before{content:'';width:8px;height:8px;background:var(--red);transform:rotate(45deg)}
+.about-card p{font-size:13.5px;color:#54657b;line-height:1.9}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--navy);color:#a9bfd9}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px;padding:38px 0 30px}
+.foot-grid h5{font-family:var(--serif);color:#fff;font-size:15.5px;letter-spacing:3px;margin-bottom:14px;position:relative;padding-bottom:9px}
+.foot-grid h5::after{content:'';position:absolute;left:0;bottom:0;width:26px;height:2px;background:var(--gold)}
+.foot-grid p{font-size:13px;line-height:1.9}
+.foot-grid a{display:block;font-size:13px;padding:3.5px 0;transition:color .2s,padding-left .2s}
+.foot-grid a:hover{color:#ffd666;padding-left:5px}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);padding:15px 0;font-size:12px;color:#7d94b3;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;letter-spacing:.5px}
+
+/* 回到顶部 */
+.to-top{
+  position:fixed;right:26px;bottom:30px;width:44px;height:44px;border-radius:8px;z-index:60;
+  background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(13,47,94,.35);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(14px);pointer-events:none;transition:all .3s;
+}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{background:var(--blue-deep);transform:translateY(-3px)}
+.to-top svg{width:18px;height:18px}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .main{grid-template-columns:1fr}
+  .side{position:static}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat:nth-child(3)::before{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .brand h1{font-size:28px}
+  .masthead .mark{font-size:150px}
+  .nav .nav-tag{display:none}
+  .nav a{padding:0 14px;font-size:14px}
+  .toolbar .right{margin-left:0;width:100%}
+  .search input{flex:1;width:auto}
+  .search input:focus{width:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部信息条 -->
+<div class="topbar">
+  <div class="wrap">
+    <span class="date" id="clock">加载中…</span>
+    <span class="links">
+      <a href="#news">最新报道</a><a href="#rank">热度榜</a><a href="#about">数据说明</a>
+    </span>
+  </div>
+</div>
+
+<!-- 报头 -->
+<header class="masthead" id="top">
+  <span class="mark">医</span>
+  <div class="wrap">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="#ffffff" opacity=".12"/>
+        <circle cx="32" cy="32" r="25" fill="#ffffff"/>
+        <path d="M27.5 15h9v12.5H49v9H36.5V49h-9V36.5H15v-9h12.5z" fill="#135aa8"/>
+        <polyline points="10,34 22,34 27,24 33,44 38,30 41,34 54,34" fill="none" stroke="#c8161d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <h1>三医改革<em>·</em>热点观察</h1>
+        <p>医疗 · 医保 · 医药 协同改革资讯聚合平台</p>
+      </div>
+    </div>
+    <div class="head-tools">
+      <span class="status-pill" id="statusPill" title="数据来源状态"><span class="dot demo" id="statusDot"></span><span id="statusTxt">连接中…</span></span>
+      <button class="refresh-btn" id="refreshBtn" title="重新抓取最新资讯">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+        刷新资讯
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 导航条 -->
+<nav class="nav">
+  <div class="wrap">
+    <a href="#top">首页</a>
+    <a href="#news">最新报道</a>
+    <a href="#rank">热度榜</a>
+    <a href="#about">数据说明</a>
+    <span class="nav-tag">深化医改 · 协同治理 · 惠民利民</span>
+  </div>
+</nav>
+
+<!-- 快讯滚动条 -->
+<div class="ticker" id="ticker">
+  <div class="wrap">
+    <span class="ticker-badge"><i></i>快讯</span>
+    <div class="ticker-clip"><div class="ticker-track" id="tickerTrack"><a>正在加载最新快讯…</a></div></div>
+  </div>
+</div>
+
+<!-- 数据速览 -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><b><span id="stTotal">0</span><span class="u">条</span></b><span>收录资讯</span></div>
+      <div class="stat"><b><span id="stSrc">0</span><span class="u">家</span></b><span>新闻来源</span></div>
+      <div class="stat hot"><b><span id="stHeat">0</span></b><span>平均热度指数</span></div>
+      <div class="stat"><b id="stTime">--:--</b><span>最新更新时间</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 主体 -->
+<main class="wrap main">
+  <!-- 左：新闻流 -->
+  <section id="news">
+    <div class="sec-h">
+      <i></i><h2>最新报道</h2>
+      <span class="sub live-txt" id="feedSub">实时更新 · 默认按热度排序</span>
+    </div>
+    <div class="toolbar">
+      <div class="chips" id="chips">
+        <button class="chip on" data-cat="全部">全部</button>
+        <button class="chip" data-cat="医疗">医疗</button>
+        <button class="chip" data-cat="医保">医保</button>
+        <button class="chip" data-cat="医药">医药</button>
+        <button class="chip" data-cat="综合">综合</button>
+      </div>
+      <div class="right">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="text" placeholder="搜索资讯关键词…">
+        </label>
+        <div class="sort-seg">
+          <button class="on" data-sort="heat">按热度</button>
+          <button data-sort="time">按时间</button>
+        </div>
+      </div>
+    </div>
+    <div class="feed" id="feed"></div>
+    <button class="load-more" id="loadMore" style="display:none">加载更多 ↓</button>
+  </section>
+
+  <!-- 右：侧栏 -->
+  <aside class="side" id="rank">
+    <div class="panel">
+      <div class="panel-h">
+        <svg class="flame" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s1 3.2-1.5 6C8.2 10.5 7 12.3 7 14.5A5 5 0 0 0 12 19.5a5 5 0 0 0 5-5c0-1.6-.7-2.9-1.5-4-.4 1-1 1.7-1.8 2.2.5-2.7-.2-6.6-1.7-8.7A9.6 9.6 0 0 0 12 2z"/></svg>
+        <h3>热度排行榜</h3>
+        <span class="badge">TOP 10</span>
+      </div>
+      <ol class="rank-list" id="rankList"></ol>
+      <p class="note">热度指数综合发布时效、来源权威度与改革关键词热度加权计算，满分为 99。</p>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>改革关键词</h3><span class="badge">点击检索</span></div>
+      <div class="tags" id="tagCloud"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>关于三医改革</h3></div>
+      <div class="about-mini">
+        <b>"三医改革"</b>指医疗、医保、医药三大领域的联动改革，是深化医药卫生体制改革的核心路径。平台聚合公开新闻源，按热度呈现改革动态，仅供学习研究参考。
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- 数据说明 -->
+<section class="about wrap" id="about">
+  <div class="sec-h"><i></i><h2>数据说明</h2><span class="sub">公开透明 · 可追溯</span></div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h4>数据来源</h4>
+      <p>资讯实时聚合自 Google News 公开新闻源（新华社、人民日报、央视新闻、健康报、国家医保局等权威渠道），经去重、分类后呈现；网络不可用时自动切换为内置演示数据。</p>
+    </div>
+    <div class="about-card">
+      <h4>热度如何计算</h4>
+      <p>以发布时间衰减为基础分（越新越高），叠加"集采、医保支付、三明医改、DRG/DIP"等改革关键词权重，并乘以来源权威系数，最终归一化为 1–99 的热度指数。</p>
+    </div>
+    <div class="about-card">
+      <h4>免责声明</h4>
+      <p>本平台为公益性资讯聚合工具，内容版权归原作者及出版机构所有；热度指数为算法计算结果，不代表任何官方评价，亦不构成政策或投资建议。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h5>三医改革 · 热点观察</h5>
+        <p>聚焦医疗、医保、医药协同发展与治理，实时追踪全国医改政策动态与地方实践，为行业从业者与研究者提供一站式资讯参考。</p>
+      </div>
+      <div>
+        <h5>平台导航</h5>
+        <a href="#news">最新报道</a>
+        <a href="#rank">热度排行榜</a>
+        <a href="#about">数据说明</a>
+        <a href="#top">回到顶部</a>
+      </div>
+      <div>
+        <h5>权威信息源</h5>
+        <a href="https://www.gov.cn" target="_blank" rel="noopener">中国政府网</a>
+        <a href="https://www.nhc.gov.cn" target="_blank" rel="noopener">国家卫生健康委员会</a>
+        <a href="https://www.nhsa.gov.cn" target="_blank" rel="noopener">国家医疗保障局</a>
+        <a href="https://www.nmpa.gov.cn" target="_blank" rel="noopener">国家药品监督管理局</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 三医改革热点观察 · 公益学习用途</span>
+      <span>数据来自公开新闻源 · 更新频率约 15 分钟</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" title="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+
+<script>
+/* ================= 配置 ================= */
+const RSS_QUERIES = ['三医改革', '医保改革', '药品集采', '医疗改革 公立医院'];
+const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const KEYWORDS = ['三医联动','三明医改','集采','DRG','DIP','医保目录','异地就医','基金监管','分级诊疗','医共体','创新药','价格改革','薪酬改革','长护险','追溯码','中医药'];
+
+/* ================= 内置演示数据（网络不可用时启用） ================= */
+const DEMO = [
+ {t:'三明医改经验推广现场推进会召开 部署下一阶段协同治理重点任务',s:'会议肯定三明在医疗、医保、医药协同治理上的成效，要求各地因地制宜学习推广，健全"三医"协同发展和治理机制，推动改革走深走实。',src:'新华社',h:2,c:'医疗',heat:97,url:'https://www.gov.cn'},
+ {t:'第十一批国家组织药品集中采购中选结果全面落地执行',s:'本批集采覆盖55种药品，中选价格平均降幅超五成，医保基金与群众用药负担进一步减轻，供应保障与质量监管措施同步强化。',src:'人民日报',h:5,c:'医药',heat:94,url:'http://www.people.com.cn'},
+ {t:'DRG/DIP支付方式改革三年行动收官 统筹地区实现全覆盖',s:'全国所有统筹地区均已开展DRG或DIP实际付费，医疗机构精细化运营管理意识明显增强，基金使用效率稳步提升。',src:'国家医保局',h:8,c:'医保',heat:92,url:'https://www.nhsa.gov.cn'},
+ {t:'国家医保药品目录调整工作方案公布 创新药准入通道再优化',s:'新版目录调整进一步优化评审规则，对符合条件的创新药实行谈判准入，鼓励"以量换价"，惠及更多罕见病与肿瘤患者。',src:'央视新闻客户端',h:11,c:'医保',heat:90,url:'https://www.cctv.com'},
+ {t:'公立医院医疗服务价格动态调整试点扩围至21个省份',s:'试点地区建立以技术劳务价值为导向的价格形成机制，重点提高诊疗、手术、护理等项目价格，降低大型设备检查费用。',src:'健康报',h:15,c:'医疗',heat:88,url:'https://www.jkb.com.cn'},
+ {t:'医保基金飞行检查实现全国统筹地区全覆盖 守护群众"救命钱"',s:'今年飞行检查聚焦骨科、血液净化、心血管内科等重点领域，运用大数据筛查精准锁定疑点，已追回违规基金数亿元。',src:'中国医疗保险',h:19,c:'医保',heat:86,url:'https://www.nhsa.gov.cn'},
+ {t:'紧密型县域医共体建设提质扩面 基层就诊率稳步提升',s:'全国县域医共体实现全覆盖，人员、财务、业务统一管理，优质医疗资源下沉基层，群众就近就医获得感明显增强。',src:'新华社',h:24,c:'医疗',heat:84,url:'https://www.gov.cn'},
+ {t:'创新药械多元支付保障机制试点启动 商保目录衔接提速',s:'试点地区探索基本医保、商业健康险、医疗救助等多层次支付衔接，为高值创新药械建立更可持续的保障通道。',src:'经济日报',h:28,c:'医药',heat:82,url:'http://www.ce.cn'},
+ {t:'跨省异地就医直接结算新增5种门诊慢特病病种',s:'高血压、糖尿病等慢特病门诊费用跨省直接结算范围进一步扩大，备案流程持续简化，惠及数千万流动人口。',src:'光明日报',h:33,c:'医保',heat:80,url:'https://www.gmw.cn'},
+ {t:'集中带量采购中选药品质量监管专项行动方案印发',s:'药监部门将对中选企业实施全覆盖监督检查和不良反应重点监测，确保"降价不降质"，让群众用上放心药。',src:'国家药监局',h:38,c:'医药',heat:78,url:'https://www.nmpa.gov.cn'},
+ {t:'公立医院薪酬制度改革试点深化 薪酬总量核定机制完善',s:'试点医院探索年薪制与协议工资制，薪酬分配向临床一线、关键岗位倾斜，调动医务人员积极性。',src:'健康报',h:44,c:'医疗',heat:76,url:'https://www.jkb.com.cn'},
+ {t:'长期护理保险制度试点城市扩围 失能评估标准实现统一',s:'长护险试点城市新增15个，全国统一的失能等级评估标准落地，重度失能人员基本护理需求得到制度性保障。',src:'人民日报',h:50,c:'医保',heat:74,url:'http://www.people.com.cn'},
+ {t:'国家医学中心与区域医疗中心建设扩容 优质资源下沉加速',s:'新一批国家区域医疗中心项目落地中西部，重点补齐肿瘤、心血管、儿科等专科短板，减少跨省就医。',src:'新华社',h:56,c:'医疗',heat:72,url:'https://www.gov.cn'},
+ {t:'药品追溯码医保结算扫码应用全面推开 基金监管更精准',s:'定点医药机构结算时须扫描药品追溯码，实现"一物一码"全程可追溯，有效防范串换药品、回流药等违规行为。',src:'国家医保局',h:62,c:'医药',heat:70,url:'https://www.nhsa.gov.cn'},
+ {t:'分级诊疗信息化平台上线运行 双向转诊流程全面再造',s:'平台打通上下级医疗机构信息系统，转诊申请、床位预约、结果互认一键完成，患者少跑腿、数据多跑路。',src:'央视新闻客户端',h:68,c:'医疗',heat:68,url:'https://www.cctv.com'},
+ {t:'中医药传承创新发展综合改革试点正式启动',s:'试点地区将在中医药服务价格、医保支付、人才培养等方面先行先试，推动中西医协同发展。',src:'光明日报',h:74,c:'医疗',heat:66,url:'https://www.gmw.cn'},
+ {t:'商业健康保险与基本医保数据互通试点落地',s:'试点地区在确保数据安全前提下实现两类保险数据共享，推动"一站式"理赔结算，提升参保人体验。',src:'经济日报',h:80,c:'医保',heat:64,url:'http://www.ce.cn'},
+ {t:'基层卫生健康综合改革试验区典型经验做法发布',s:'一批试验区在编制管理、县管乡用、家庭医生签约等方面形成可复制经验，将在全国范围内推广。',src:'健康报',h:86,c:'医疗',heat:62,url:'https://www.jkb.com.cn'}
+];
+
+/* ================= 全局状态 ================= */
+const state = { all: [], cat: '全部', q: '', sort: 'heat', visible: 12, live: false };
+const $ = id => document.getElementById(id);
+
+/* ================= 工具函数 ================= */
+function fetchTimeout(url, ms){
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, { signal: c.signal }).finally(() => clearTimeout(t));
+}
+function relTime(d){
+  const diff = Date.now() - d.getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return '刚刚';
+  if (m < 60) return m + ' 分钟前';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + ' 小时前';
+  const day = Math.floor(h / 24);
+  if (day < 7) return day + ' 天前';
+  return (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+function categorize(t){
+  if (/药|集采|耗材|药械|仿制|药监|招采|追溯码/.test(t)) return '医药';
+  if (/医保|支付|DRG|DIP|异地就医|基金|长护|护理保险|结算|目录调整|商保|保险/.test(t)) return '医保';
+  if (/医院|医疗|卫健|诊疗|医共体|分级|薪酬|医学中心|医改|三明|中医药|医师|卫生/.test(t)) return '医疗';
+  return '综合';
+}
+function calcHeat(title, date, src){
+  const h = (Date.now() - date.getTime()) / 36e5;
+  let base = Math.max(18, 95 - h * 1.15);
+  let boost = 0;
+  const K = [[/三医|三明|医改/,6],[/集采|带量采购/,6],[/医保/,5],[/DRG|DIP|支付方式/,5],[/创新药|药械/,5],[/基金|监管/,4],[/分级诊疗|医共体/,4],[/价格|薪酬/,4],[/长护|护理保险/,3],[/异地就医|结算/,3]];
+  for (const [re, v] of K) if (re.test(title)) boost += v;
+  boost = Math.min(boost, 12);
+  const w = /新华|人民日报|央视|政府网|经济日报|光明日报/.test(src) ? 1.06 : 1;
+  return Math.max(5, Math.min(99, Math.round((base + boost) * w)));
+}
+const CAT_COLOR = { '医疗':'var(--c-yiliao)', '医保':'var(--c-yibao)', '医药':'var(--c-yiyao)', '综合':'var(--c-zonghe)' };
+const FLAME = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s1 3.2-1.5 6C8.2 10.5 7 12.3 7 14.5A5 5 0 0 0 12 19.5a5 5 0 0 0 5-5c0-1.6-.7-2.9-1.5-4-.4 1-1 1.7-1.8 2.2.5-2.7-.2-6.6-1.7-8.7A9.6 9.6 0 0 0 12 2z"/></svg>';
+
+/* ================= 数据加载 ================= */
+async function fetchRSS(q){
+  const rss = 'https://news.google.com/rss/search?q=' + encodeURIComponent(q) + '&hl=zh-CN&gl=CN&ceid=CN:zh-Hans';
+  const r = await fetchTimeout(RSS_API + encodeURIComponent(rss), 9000);
+  const j = await r.json();
+  if (j.status !== 'ok') throw new Error('rss error');
+  return j.items || [];
+}
+async function loadLive(){
+  const results = await Promise.allSettled(RSS_QUERIES.map(fetchRSS));
+  const raw = [];
+  results.forEach(r => { if (r.status === 'fulfilled') raw.push(...r.value); });
+  if (raw.length < 3) throw new Error('too few items');
+  const seen = new Set(), items = [];
+  for (const it of raw){
+    let title = (it.title || '').trim();
+    let src = (it.author || '').trim();
+    const m = title.match(/^(.*)\s+-\s+([^-]+)$/);
+    if (m){ title = m[1].trim(); if (!src) src = m[2].trim(); }
+    if (!title) continue;
+    const key = title.slice(0, 22);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    let d = new Date(String(it.pubDate || '').replace(' ', 'T') + 'Z');
+    if (isNaN(d.getTime())) d = new Date();
+    const desc = (it.description || '').replace(/<[^>]+>/g, '').replace(/&[^;]+;/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 110);
+    items.push({ t: title, s: desc || '点击标题查看原文详情。', src: src || '公开新闻源', d, c: categorize(title + desc), heat: calcHeat(title, d, src), url: it.link || '#' });
+  }
+  return items.sort((a, b) => b.heat - a.heat).slice(0, 40);
+}
+function loadDemo(){
+  const now = Date.now();
+  return DEMO.map(x => ({ t: x.t, s: x.s, src: x.src, c: x.c, heat: x.heat, url: x.url, d: new Date(now - x.h * 36e5) }))
+             .sort((a, b) => b.heat - a.heat);
+}
+/* 优先数据源：读取服务端定时任务生成的 data.json（部署后对国内访客最稳定） */
+async function loadServerData(){
+  const r = await fetchTimeout('data.json?t=' + Date.now(), 5000);
+  if (!r.ok) throw new Error('no data.json');
+  const j = await r.json();
+  if (!j.items || j.items.length < 3) throw new Error('empty data.json');
+  if (j.ts && Date.now() - j.ts > 3 * 3600 * 1000) throw new Error('stale data.json');
+  const items = j.items.map(x => ({ t: x.t, s: x.s, src: x.src, c: x.c, heat: x.heat, url: x.url, d: new Date(x.d) }));
+  return { items, updated: j.updated || null };
+}
+
+/* ================= 渲染 ================= */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08 });
+
+function renderTicker(){
+  const top = state.all.slice().sort((a,b)=>b.heat-a.heat).slice(0, 8);
+  const html = top.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.t}</a>`).join('');
+  $('tickerTrack').innerHTML = html + html; /* 复制一份实现无缝滚动 */
+}
+function countUp(el, target){
+  const start = performance.now(), dur = 800, from = 0;
+  function step(t){
+    const p = Math.min(1, (t - start) / dur);
+    el.textContent = Math.round(from + (target - from) * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function renderStats(){
+  countUp($('stTotal'), state.all.length);
+  countUp($('stSrc'), new Set(state.all.map(x => x.src)).size);
+  countUp($('stHeat'), Math.round(state.all.reduce((s, x) => s + x.heat, 0) / (state.all.length || 1)));
+  const n = new Date();
+  $('stTime').textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+}
+function filtered(){
+  let list = state.all;
+  if (state.cat !== '全部') list = list.filter(x => x.c === state.cat);
+  if (state.q){
+    const q = state.q.toLowerCase();
+    list = list.filter(x => (x.t + x.s + x.src).toLowerCase().includes(q));
+  }
+  list = list.slice();
+  if (state.sort === 'heat') list.sort((a, b) => b.heat - a.heat);
+  else list.sort((a, b) => b.d - a.d);
+  return list;
+}
+function renderFeed(){
+  const list = filtered();
+  const shown = list.slice(0, state.visible);
+  const feed = $('feed');
+  if (!shown.length){
+    feed.innerHTML = '<div class="empty">未找到相关资讯，请更换关键词或分类试试</div>';
+    $('loadMore').style.display = 'none';
+    return;
+  }
+  feed.innerHTML = shown.map((x, i) => `
+    <article class="card" style="--cat:${CAT_COLOR[x.c]};transition-delay:${(i % 6) * 60}ms">
+      <div class="card-top">
+        <span class="cat-tag">${x.c}</span>
+        <span class="heat-pill">${FLAME}热度 ${x.heat}</span>
+      </div>
+      <h3><a href="${x.url}" target="_blank" rel="noopener">${x.t}</a></h3>
+      <p class="sum">${x.s}</p>
+      <div class="meta">
+        <span class="src">${x.src}</span>
+        <span>${relTime(x.d)}</span>
+        <div class="heatbar"><i style="--w:${x.heat}%"></i></div>
+      </div>
+    </article>`).join('');
+  feed.querySelectorAll('.card').forEach(el => io.observe(el));
+  $('loadMore').style.display = list.length > state.visible ? 'block' : 'none';
+}
+function renderRank(){
+  const top = state.all.slice().sort((a,b)=>b.heat-a.heat).slice(0, 10);
+  const ol = $('rankList');
+  ol.innerHTML = top.map((x, i) => `
+    <li style="transition-delay:${i * 55}ms">
+      <a href="${x.url}" target="_blank" rel="noopener">
+        <span class="rk ${i < 3 ? 'r' + (i + 1) : ''}">${i + 1}</span>
+        <span class="t">${x.t}</span>
+        <span class="h">${x.heat}</span>
+      </a>
+    </li>`).join('');
+  ol.querySelectorAll('li').forEach(el => io.observe(el));
+}
+function renderTags(){
+  const counts = KEYWORDS.map(k => [k, state.all.filter(x => x.t.includes(k)).length]).filter(x => x[1] > 0).sort((a,b)=>b[1]-a[1]);
+  $('tagCloud').innerHTML = counts.length
+    ? counts.map(([k, n]) => `<button class="tag" data-k="${k}" style="font-size:${12 + Math.min(n * 2, 7)}px">${k} ${n}</button>`).join('')
+    : '<span style="font-size:12.5px;color:#93a3b6">暂无高频关键词</span>';
+}
+function renderAll(){
+  renderTicker(); renderStats(); renderFeed(); renderRank(); renderTags();
+}
+function setStatus(mode, updatedLabel){
+  state.live = mode !== 'demo';
+  const n = new Date(), p = v => String(v).padStart(2, '0');
+  const hm = p(n.getHours()) + ':' + p(n.getMinutes());
+  $('statusDot').className = 'dot ' + (mode === 'demo' ? 'demo' : 'live');
+  $('statusTxt').textContent = mode === 'demo' ? '演示数据' : '实时数据';
+  if (mode === 'server'){
+    $('statusPill').title = '服务端定时聚合，每 15 分钟自动更新';
+    $('feedSub').textContent = '服务端聚合 · 更新于 ' + (updatedLabel || hm) + ' · 每 15 分钟自动更新';
+  } else if (mode === 'live'){
+    $('statusPill').title = '已连接公开新闻源，浏览器端实时更新';
+    $('feedSub').textContent = '实时聚合 · 更新于 ' + hm + ' · 每 10 分钟自动刷新';
+  } else {
+    $('statusPill').title = '网络暂不可用，当前展示内置演示数据';
+    $('feedSub').textContent = '演示数据 · 每 10 分钟自动尝试刷新';
+  }
+}
+function showSkeleton(){
+  $('feed').innerHTML = Array.from({length: 4}, () => `
+    <div class="sk"><div class="b" style="width:34%"></div><div class="b" style="width:88%;height:18px"></div><div class="b" style="width:72%"></div><div class="b" style="width:45%;margin-bottom:0"></div></div>`).join('');
+}
+
+/* ================= 加载入口 ================= */
+async function loadBest(){
+  try {
+    const sd = await loadServerData();
+    state.all = sd.items;
+    setStatus('server', sd.updated);
+    return;
+  } catch (e) {}
+  try {
+    state.all = await loadLive();
+    setStatus('live');
+    return;
+  } catch (e) {}
+  state.all = loadDemo();
+  setStatus('demo');
+}
+async function init(){
+  showSkeleton();
+  await loadBest();
+  state.visible = 12;
+  renderAll();
+}
+
+/* ================= 交互 ================= */
+$('chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  b.classList.add('on');
+  state.cat = b.dataset.cat; state.visible = 12;
+  renderFeed();
+});
+document.querySelector('.sort-seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('.sort-seg button').forEach(c => c.classList.remove('on'));
+  b.classList.add('on');
+  state.sort = b.dataset.sort; state.visible = 12;
+  renderFeed();
+});
+let sT;
+$('searchInput').addEventListener('input', e => {
+  clearTimeout(sT);
+  sT = setTimeout(() => { state.q = e.target.value.trim(); state.visible = 12; renderFeed(); }, 220);
+});
+$('tagCloud').addEventListener('click', e => {
+  const b = e.target.closest('.tag'); if (!b) return;
+  $('searchInput').value = b.dataset.k;
+  state.q = b.dataset.k; state.visible = 12;
+  renderFeed();
+  $('news').scrollIntoView({ behavior: 'smooth' });
+});
+$('loadMore').addEventListener('click', () => { state.visible += 12; renderFeed(); });
+let refreshing = false;
+async function refreshData(){
+  if (refreshing) return;
+  refreshing = true;
+  const btn = $('refreshBtn');
+  btn.classList.add('spin');
+  await loadBest();
+  state.visible = 12;
+  renderAll();
+  btn.classList.remove('spin');
+  refreshing = false;
+}
+$('refreshBtn').addEventListener('click', refreshData);
+
+/* 自动刷新：页面打开期间每 10 分钟抓取一次最新资讯（页面不可见时跳过，避免无效请求） */
+const AUTO_REFRESH_MS = 10 * 60 * 1000;
+setInterval(() => { if (!document.hidden) refreshData(); }, AUTO_REFRESH_MS);
+
+/* 时钟 */
+function tickClock(){
+  const n = new Date();
+  const wk = '日一二三四五六'[n.getDay()];
+  const p = v => String(v).padStart(2, '0');
+  $('clock').textContent = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日 星期${wk} ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* 回到顶部 */
+const toTop = $('toTop');
+addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > 420), { passive: true });
+toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+init();
+</script>
+</body>
+</html>
