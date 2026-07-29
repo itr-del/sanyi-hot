@@ -20,7 +20,10 @@ import sys
 import time
 import urllib.request
 import urllib.parse
+import base64
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
+from html.parser import HTMLParser
 
 # ---------- 配置 ----------
 SITE_DIR = os.environ.get("SANYI_SITE_DIR", "/var/www/sanyi-hot")
@@ -108,27 +111,71 @@ def strip_html(s):
     s = re.sub(r"&[^;]+;", " ", s)
     return re.sub(r"\s+", " ", s).strip()
 
-def resolve_url(url):
+def resolve_url(url, max_retries=3):
     """跟踪 Google News 包装链接的重定向，获取真实新闻 URL。
-    服务器在香港/海外可正常访问 Google，解析后国内用户可直接打开原文。"""
+    优先通过 HTTP 重定向解析（服务器在海外时有效），
+    失败时尝试 base64 解码（不依赖网络，适用于大陆服务器）。
+    如果所有策略失败返回 None，调用方应过滤掉该条目。"""
     if not url or "news.google.com/rss/articles/" not in url:
         return url
+
+    # 策略1: 通过 HEAD 请求获取重定向 Location（不跟随重定向）
+    for attempt in range(max_retries):
+        try:
+            class NoRedirect(urllib.request.HTTPRedirectHandler):
+                def redirect_request(self, req, fp, code, msg, headers, newurl):
+                    raise urllib.error.HTTPError(newurl, code, msg, headers, fp)
+            opener = urllib.request.build_opener(NoRedirect)
+            req = urllib.request.Request(url, headers={"User-Agent": UA}, method='HEAD')
+            opener.open(req, timeout=8)
+        except urllib.error.HTTPError as e:
+            if e.code in (301, 302, 303, 307, 308):
+                real = e.headers.get("Location", "")
+                if real and not real.startswith("https://news.google.com"):
+                    return real
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(1 * (attempt + 1))
+                continue
+        break
+
+    # 策略2: 跟随重定向获取最终 URL
     try:
-        class NoRedirect(urllib.request.HTTPRedirectHandler):
-            def redirect_request(self, req, fp, code, msg, headers, newurl):
-                raise urllib.error.HTTPError(newurl, code, msg, headers, fp)
-        opener = urllib.request.build_opener(NoRedirect)
         req = urllib.request.Request(url, headers={"User-Agent": UA})
-        opener.open(req, timeout=8)
-    except urllib.error.HTTPError as e:
-        # 301/302/307/308 重定向时 Location 即为真实 URL
-        if e.code in (301, 302, 303, 307, 308):
-            real = e.headers.get("Location", "")
-            if real and not real.startswith("https://news.google.com"):
-                return real
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            final_url = resp.geturl()
+            if final_url and not final_url.startswith("https://news.google.com"):
+                return final_url
     except Exception:
         pass
-    return url  # 解析失败则保留原链接
+
+    # 策略3: 尝试 base64 解码 Google News 文章 ID（不依赖网络）
+    try:
+        match = re.search(r'/articles/([A-Za-z0-9_-]+)$', url)
+        if match:
+            encoded = match.group(1)
+            # 尝试多种解码方式
+            for prefix in ['', 'CBMi', 'CBMiq', 'CBMiK2', 'CBMiK', 'CBM']:
+                if prefix and not encoded.startswith(prefix):
+                    continue
+                rest = encoded[len(prefix):] if prefix else encoded
+                for padding in ['', '=', '==']:
+                    try:
+                        padded = rest.replace('-', '+').replace('_', '/') + padding
+                        decoded = base64.b64decode(padded)
+                        # 查找 URL 模式
+                        url_match = re.search(b'(https?://[^\s\x00-\x1f]+)', decoded)
+                        if url_match:
+                            real = url_match.group(1).decode('utf-8', errors='ignore')
+                            if real and not real.startswith("https://news.google.com"):
+                                return real
+                    except Exception:
+                        continue
+    except Exception:
+        pass
+
+    # 所有策略失败
+    return None
 
 def collect():
     raw = []
@@ -160,17 +207,156 @@ def collect():
         seen.add(key)
         pub = parse_pub(it.get("pubDate") or "")
         desc = strip_html(it.get("description"))[:110]
+        url = resolve_url(it.get("link") or "#")
+        if url is None:
+            print("[warn] failed to resolve Google News URL, skipping: %s" % it.get("link"), file=sys.stderr)
+            continue
         out.append({
             "t": title,
             "s": desc or "点击标题查看原文详情。",
             "src": src or "公开新闻源",
             "c": categorize(title + desc),
             "heat": calc_heat(title, pub, src),
-            "url": resolve_url(it.get("link") or "#"),
+            "url": url,
             "d": pub.astimezone(CST).isoformat(),
         })
     out.sort(key=lambda x: x["heat"], reverse=True)
     return out[:40]
+
+# ---------- 监控信源（自定义网站/RSS/微信公众号） ----------
+MONITORS_FILE = os.path.join(SITE_DIR, "monitors.json")
+
+def load_monitors():
+    """读取管理员配置的监控信源列表"""
+    try:
+        with open(MONITORS_FILE, encoding="utf-8") as f:
+            mons = json.load(f)
+        return [m for m in mons if m.get("enabled", True)]
+    except Exception:
+        return []
+
+class LinkExtractor(HTMLParser):
+    """从 HTML 页面提取文章链接和标题"""
+    def __init__(self, base_url):
+        super().__init__()
+        self.base_url = base_url
+        self.links = []
+        self._in_a = False
+        self._href = ""
+        self._text = ""
+    def handle_starttag(self, tag, attrs):
+        if tag == "a":
+            d = dict(attrs)
+            href = d.get("href", "")
+            if href and not href.startswith(("javascript:", "#", "mailto:")):
+                self._in_a = True
+                self._href = href
+                self._text = ""
+    def handle_data(self, data):
+        if self._in_a:
+            self._text += data
+    def handle_endtag(self, tag):
+        if tag == "a" and self._in_a:
+            self._in_a = False
+            title = self._text.strip()
+            if title and len(title) > 6:
+                url = urllib.parse.urljoin(self.base_url, self._href)
+                self.links.append({"title": title, "url": url})
+
+def fetch_rss_direct(url, source_name):
+    """直接解析 RSS/Atom XML feed（不经过 rss2json）"""
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+        xml_data = resp.read()
+    root = ET.fromstring(xml_data)
+    items = []
+    # 支持 RSS 2.0 和 Atom
+    ns = {"atom": "http://www.w3.org/2005/Atom"}
+    # RSS 2.0
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        desc = strip_html(item.findtext("description") or "")[:110]
+        pub_str = item.findtext("pubDate") or ""
+        if title and link:
+            pub = parse_pub(pub_str) if pub_str else datetime.now(timezone.utc)
+            items.append({
+                "t": title, "s": desc or "点击标题查看原文。",
+                "src": source_name, "c": categorize(title + desc),
+                "heat": calc_heat(title, pub, source_name),
+                "url": link, "d": pub.astimezone(CST).isoformat()
+            })
+    # Atom
+    for entry in root.iter("{http://www.w3.org/2005/Atom}entry"):
+        title = (entry.findtext("{http://www.w3.org/2005/Atom}title") or "").strip()
+        link_el = entry.find("{http://www.w3.org/2005/Atom}link")
+        link = link_el.get("href", "") if link_el is not None else ""
+        desc = strip_html(entry.findtext("{http://www.w3.org/2005/Atom}summary") or "")[:110]
+        pub_str = entry.findtext("{http://www.w3.org/2005/Atom}published") or entry.findtext("{http://www.w3.org/2005/Atom}updated") or ""
+        if title and link:
+            pub = parse_pub(pub_str) if pub_str else datetime.now(timezone.utc)
+            items.append({
+                "t": title, "s": desc or "点击标题查看原文。",
+                "src": source_name, "c": categorize(title + desc),
+                "heat": calc_heat(title, pub, source_name),
+                "url": link, "d": pub.astimezone(CST).isoformat()
+            })
+    return items[:15]
+
+def fetch_web_list(url, source_name):
+    """解析政府/新闻网站的列表页，提取文章标题和链接"""
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+        html = resp.read().decode("utf-8", "ignore")
+    parser = LinkExtractor(url)
+    parser.feed(html)
+    items = []
+    seen = set()
+    for link_info in parser.links:
+        title = link_info["title"]
+        # 过滤导航链接等非新闻内容
+        if len(title) < 8 or len(title) > 100:
+            continue
+        if title in seen:
+            continue
+        seen.add(title)
+        # 只保留看起来像新闻标题的链接
+        if not re.search(r"[\u4e00-\u9fff]{4,}", title):
+            continue
+        link_url = link_info["url"]
+        pub = datetime.now(timezone.utc)  # 网页列表通常无精确时间
+        items.append({
+            "t": title, "s": "来源：" + source_name + "，点击标题查看原文。",
+            "src": source_name, "c": categorize(title),
+            "heat": calc_heat(title, pub, source_name),
+            "url": link_url, "d": pub.astimezone(CST).isoformat()
+        })
+        if len(items) >= 15:
+            break
+    return items
+
+def collect_monitors():
+    """抓取所有已启用的监控信源"""
+    mons = load_monitors()
+    if not mons:
+        return []
+    all_items = []
+    for m in mons:
+        name = m.get("name", "自定义信源")
+        mtype = m.get("type", "rss")
+        url = m.get("url", "")
+        if not url:
+            continue
+        try:
+            if mtype in ("rss", "wechat"):
+                items = fetch_rss_direct(url, name)
+            else:
+                items = fetch_web_list(url, name)
+            all_items.extend(items)
+            print("[monitor] %s (%s): %d items" % (name, mtype, len(items)))
+        except Exception as e:
+            print("[warn] monitor %s failed: %s" % (name, e), file=sys.stderr)
+    return all_items
 
 def demo_items():
     now = datetime.now(CST)
@@ -198,13 +384,30 @@ def write_data(items, live):
     os.replace(tmp, DATA_FILE)
 
 def main():
+    # 先抓取监控信源（独立于 Google News，国内服务器也能抓政府网站）
+    monitor_items = collect_monitors()
+
     try:
         items = collect()
-        write_data(items, live=True)
-        print("[ok] live data written: %d items -> %s" % (len(items), DATA_FILE))
+        # 合并监控信源结果（去重）
+        seen_urls = set(x["url"] for x in items)
+        for mi in monitor_items:
+            if mi["url"] not in seen_urls:
+                items.append(mi)
+                seen_urls.add(mi["url"])
+        items.sort(key=lambda x: x["heat"], reverse=True)
+        write_data(items[:60], live=True)
+        print("[ok] live data written: %d items (google=%d, monitors=%d) -> %s" % (
+            len(items[:60]), len(items) - len(monitor_items), len(monitor_items), DATA_FILE))
     except Exception as e:
-        print("[error] live fetch failed: %s" % e, file=sys.stderr)
-        # 若已有较新的 data.json（2 小时内），保留不动；否则写入演示数据兜底
+        print("[error] google news fetch failed: %s" % e, file=sys.stderr)
+        # Google News 失败但监控信源有数据时，仍然使用监控信源数据
+        if monitor_items:
+            monitor_items.sort(key=lambda x: x["heat"], reverse=True)
+            write_data(monitor_items[:40], live=True)
+            print("[ok] monitor-only data written: %d items -> %s" % (len(monitor_items[:40]), DATA_FILE))
+            return
+        # 全部失败：若已有较新的 data.json（2 小时内），保留不动；否则写入演示数据兜底
         try:
             with open(DATA_FILE, encoding="utf-8") as f:
                 prev = json.load(f)

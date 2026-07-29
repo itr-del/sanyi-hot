@@ -656,6 +656,7 @@ footer{background:var(--navy);color:#a9bfd9}
         <div class="admin-tabs">
           <button class="admin-tab on" data-tab="review">信源审核 <span class="tab-badge" id="adminCount">0</span></button>
           <button class="admin-tab" data-tab="keywords">关键词权重</button>
+          <button class="admin-tab" data-tab="monitors">监控信源</button>
           <button class="btn btn-ghost btn-sm" id="adminLogout" style="margin-left:auto">退出</button>
         </div>
         <!-- 信源审核 Tab -->
@@ -676,6 +677,40 @@ footer{background:var(--navy);color:#a9bfd9}
             <button class="btn btn-primary btn-sm" id="kwSave">保存配置</button>
             <button class="btn btn-ghost btn-sm" id="kwReset">恢复默认</button>
             <span style="margin-left:auto;font-size:12px;color:#8496ab">上限封顶：<input type="number" id="kwCap" value="12" min="1" max="50" style="width:48px;padding:3px 6px;border:1px solid var(--line);border-radius:4px;font-size:12px;text-align:center"> 分</span>
+          </div>
+        </div>
+        <!-- 监控信源 Tab -->
+        <div class="admin-tab-content" id="tabMonitors" style="display:none">
+          <p style="font-size:12.5px;color:#54657b;margin-bottom:12px;line-height:1.7">添加需要持续监控的信源。服务端会定时抓取这些信源的最新文章并纳入聚合。<b>RSS</b> 类型直接填 RSS/Atom 地址；<b>网页</b> 类型填新闻列表页 URL（服务端解析页面提取文章）；<b>微信RSS</b> 填第三方桥接服务生成的 feed 地址（如 WeRSS、feeddd）。</p>
+          <div class="kw-table-wrap" style="max-height:200px">
+            <table class="kw-table" id="monTable">
+              <thead><tr><th>名称</th><th style="width:60px">类型</th><th>地址</th><th style="width:36px">启用</th><th style="width:30px"></th></tr></thead>
+              <tbody id="monBody"></tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:#f6f9fd;border-radius:6px;border:1px solid var(--line)">
+            <div style="font-size:12.5px;font-weight:600;color:#41546c;margin-bottom:8px">添加新信源</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <input type="text" id="monName" placeholder="名称（如：国家医保局）" style="width:130px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+              <select id="monType" style="padding:6px 8px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+                <option value="rss">RSS</option>
+                <option value="web">网页</option>
+                <option value="wechat">微信RSS</option>
+              </select>
+              <input type="url" id="monUrl" placeholder="RSS 或网页地址" style="flex:1;min-width:180px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+              <button class="btn btn-primary btn-sm" id="monAdd">添加</button>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+              <span style="font-size:11.5px;color:#8496ab;line-height:24px">快捷添加：</span>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家医保局" data-type="web" data-url="https://www.nhsa.gov.cn/col/col5/index.html">国家医保局</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家卫健委" data-type="web" data-url="https://www.nhc.gov.cn/xcs/yqtb/list.shtml">国家卫健委</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家药监局" data-type="web" data-url="https://www.nmpa.gov.cn/yaowen/index.html">国家药监局</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="健康报" data-type="rss" data-url="https://www.jkb.com.cn/rss.xml">健康报</button>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px">
+            <button class="btn btn-primary btn-sm" id="monSave">保存配置</button>
+            <span style="font-size:11.5px;color:#8496ab;line-height:28px">保存后服务端下次抓取时自动生效（≤15分钟）</span>
           </div>
         </div>
       </div>
@@ -741,6 +776,38 @@ function categorize(t){
   if (/医院|医疗|卫健|诊疗|医共体|分级|薪酬|医学中心|医改|三明|中医药|医师|卫生/.test(t)) return '医疗';
   return '综合';
 }
+/* 解析 Google News 包装链接，返回真实新闻 URL；解析失败返回 null */
+function resolveGoogleUrl(url) {
+  if (!url || !url.includes('news.google.com')) return url;
+
+  // 尝试 base64 解码 Google News 文章 ID
+  try {
+    const match = url.match(/\/articles\/([A-Za-z0-9_-]+)$/);
+    if (match) {
+      const encoded = match[1];
+      const prefixes = ['', 'CBMi', 'CBMiq', 'CBMiK2', 'CBMiK', 'CBM'];
+      for (const prefix of prefixes) {
+        if (prefix && !encoded.startsWith(prefix)) continue;
+        const rest = prefix ? encoded.slice(prefix.length) : encoded;
+        for (let pad = 0; pad <= 2; pad++) {
+          try {
+            const padded = rest.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat(pad);
+            const decoded = atob(padded);
+            const urlMatch = decoded.match(/(https?:\/\/[^\s\x00-\x1f]+)/);
+            if (urlMatch) {
+              let real = urlMatch[1];
+              if (real.startsWith('+')) real = real.slice(1);
+              if (real && !real.includes('news.google.com')) return real;
+            }
+          } catch (e) {}
+        }
+      }
+    }
+  } catch (e) {}
+
+  return null; // 无法解析，过滤掉
+}
+
 /* 热度关键词权重配置（可自定义） */
 const HEAT_CONFIG_KEY = 'sanyi_heat_config';
 const DEFAULT_HEAT_RULES = [
@@ -812,7 +879,9 @@ async function loadLive(){
     let d = new Date(String(it.pubDate || '').replace(' ', 'T') + 'Z');
     if (isNaN(d.getTime())) d = new Date();
     const desc = (it.description || '').replace(/<[^>]+>/g, '').replace(/&[^;]+;/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 110);
-    items.push({ t: title, s: desc || '点击标题查看原文详情。', src: src || '公开新闻源', d, c: categorize(title + desc), heat: calcHeat(title, d, src), url: it.link || '#' });
+    const resolvedUrl = resolveGoogleUrl(it.link || '#');
+    if (!resolvedUrl) { console.warn('[warn] failed to resolve Google News URL, skipping:', it.link); continue; }
+    items.push({ t: title, s: desc || '点击标题查看原文详情。', src: src || '公开新闻源', d, c: categorize(title + desc), heat: calcHeat(title, d, src), url: resolvedUrl });
   }
   return items.sort((a, b) => b.heat - a.heat).slice(0, 40);
 }
@@ -1157,7 +1226,9 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
     const target = tab.dataset.tab;
     $('tabReview').style.display = target === 'review' ? '' : 'none';
     $('tabKeywords').style.display = target === 'keywords' ? '' : 'none';
+    $('tabMonitors').style.display = target === 'monitors' ? '' : 'none';
     if (target === 'keywords') renderKwTable();
+    if (target === 'monitors') renderMonTable();
   });
 });
 
@@ -1214,6 +1285,87 @@ $('kwReset').addEventListener('click', () => {
   state.all.forEach(x => { x.heat = calcHeat(x.t, x.d, x.src); });
   state.all.sort((a, b) => b.heat - a.heat);
   renderAll();
+});
+
+/* ================= 监控信源管理 ================= */
+const MONITORS_KEY = 'sanyi_monitors';
+function getMonitors(){ try { return JSON.parse(localStorage.getItem(MONITORS_KEY) || '[]'); } catch(e){ return []; } }
+function saveMonitors(arr){ localStorage.setItem(MONITORS_KEY, JSON.stringify(arr)); }
+
+function renderMonTable(){
+  const mons = getMonitors();
+  if (!mons.length){
+    $('monBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:#8496ab;padding:16px">暂无监控信源，请在下方添加</td></tr>';
+    return;
+  }
+  const typeLabel = { rss: 'RSS', web: '网页', wechat: '微信' };
+  const typeColor = { rss: '#155bb5', web: '#0b7285', wechat: '#07c160' };
+  $('monBody').innerHTML = mons.map((m, i) => `
+    <tr>
+      <td style="font-weight:500;white-space:nowrap">${esc(m.name)}</td>
+      <td><span style="font-size:11px;padding:2px 6px;border-radius:3px;color:#fff;background:${typeColor[m.type] || '#666'}">${typeLabel[m.type] || m.type}</span></td>
+      <td style="font-size:12px;color:#5b6b7f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px" title="${esc(m.url)}">${esc(m.url)}</td>
+      <td style="text-align:center"><input type="checkbox" data-toggle="${i}" ${m.enabled !== false ? 'checked' : ''}></td>
+      <td><button class="del-btn" data-mondel="${i}" title="删除">&times;</button></td>
+    </tr>`).join('');
+}
+
+$('monAdd').addEventListener('click', () => {
+  const name = $('monName').value.trim();
+  const type = $('monType').value;
+  const url = $('monUrl').value.trim();
+  if (!name || !url){ showToast('请填写名称和地址'); return; }
+  const mons = getMonitors();
+  if (mons.some(m => m.url === url)){ showToast('该地址已存在'); return; }
+  mons.push({ id: Date.now().toString(36), name, type, url, enabled: true });
+  saveMonitors(mons);
+  $('monName').value = ''; $('monUrl').value = '';
+  renderMonTable();
+  showToast('已添加：' + name);
+});
+
+document.querySelectorAll('.mon-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const name = btn.dataset.name, type = btn.dataset.type, url = btn.dataset.url;
+    const mons = getMonitors();
+    if (mons.some(m => m.url === url)){ showToast('该信源已存在'); return; }
+    mons.push({ id: Date.now().toString(36), name, type, url, enabled: true });
+    saveMonitors(mons);
+    renderMonTable();
+    showToast('已添加：' + name);
+  });
+});
+
+$('monBody').addEventListener('click', e => {
+  const delBtn = e.target.closest('[data-mondel]');
+  if (delBtn){
+    const mons = getMonitors();
+    mons.splice(parseInt(delBtn.dataset.mondel), 1);
+    saveMonitors(mons);
+    renderMonTable();
+    return;
+  }
+  const tog = e.target.closest('[data-toggle]');
+  if (tog){
+    const mons = getMonitors();
+    mons[parseInt(tog.dataset.toggle)].enabled = tog.checked;
+    saveMonitors(mons);
+  }
+});
+
+$('monSave').addEventListener('click', () => {
+  /* 将配置同步写入 data.json 同目录的 monitors.json（部署后服务端读取） */
+  const mons = getMonitors().filter(m => m.enabled !== false);
+  /* 本地存储已保存，服务端通过 monitors.json 读取 */
+  try {
+    const blob = new Blob([JSON.stringify(mons, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'monitors.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e){}
+  showToast('配置已保存并导出 monitors.json（请上传到网站目录）');
 });
 
 /* 将审核通过的信源合并到当前展示数据 */
