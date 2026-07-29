@@ -1,0 +1,26 @@
+[
+  {
+    "name": "中国新闻网-时政",
+    "type": "rss",
+    "url": "https://www.chinanews.com.cn/rss/china.xml",
+    "enabled": true
+  },
+  {
+    "name": "中国新闻网-社会",
+    "type": "rss",
+    "url": "https://www.chinanews.com.cn/rss/society.xml",
+    "enabled": true
+  },
+  {
+    "name": "中国新闻网-健康",
+    "type": "rss",
+    "url": "https://www.chinanews.com.cn/rss/jk.xml",
+    "enabled": true
+  },
+  {
+    "name": "中国新闻网-要闻",
+    "type": "rss",
+    "url": "https://www.chinanews.com.cn/rss/importnews.xml",
+    "enabled": true
+  }
+]

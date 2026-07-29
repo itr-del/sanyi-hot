@@ -30,8 +30,10 @@ SITE_DIR = os.environ.get("SANYI_SITE_DIR", "/var/www/sanyi-hot")
 DATA_FILE = os.path.join(SITE_DIR, "data.json")
 RSS_API = "https://api.rss2json.com/v1/api.json?rss_url="
 QUERIES = ["三医改革", "医保改革", "药品集采", "医疗改革 公立医院"]
-TIMEOUT = 15
+TIMEOUT = 5
 UA = "Mozilla/5.0 (X11; Linux x86_64) SanyiHotNews/1.0"
+# 国内服务器无法访问 Google News，默认跳过 Google News 抓取，仅使用监控信源
+SKIP_GOOGLE = os.environ.get("SANYI_SKIP_GOOGLE", "1") == "1"
 
 CST = timezone(timedelta(hours=8))
 
@@ -126,8 +128,8 @@ def resolve_url(url, max_retries=3):
                 def redirect_request(self, req, fp, code, msg, headers, newurl):
                     raise urllib.error.HTTPError(newurl, code, msg, headers, fp)
             opener = urllib.request.build_opener(NoRedirect)
-            req = urllib.request.Request(url, headers={"User-Agent": UA}, method='HEAD')
-            opener.open(req, timeout=8)
+            req = urllib.request.Request(url, headers={"User-Agent": UA}, method="HEAD")
+            opener.open(req, timeout=TIMEOUT)
         except urllib.error.HTTPError as e:
             if e.code in (301, 302, 303, 307, 308):
                 real = e.headers.get("Location", "")
@@ -142,7 +144,7 @@ def resolve_url(url, max_retries=3):
     # 策略2: 跟随重定向获取最终 URL
     try:
         req = urllib.request.Request(url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
             final_url = resp.geturl()
             if final_url and not final_url.startswith("https://news.google.com"):
                 return final_url
@@ -151,22 +153,22 @@ def resolve_url(url, max_retries=3):
 
     # 策略3: 尝试 base64 解码 Google News 文章 ID（不依赖网络）
     try:
-        match = re.search(r'/articles/([A-Za-z0-9_-]+)$', url)
+        match = re.search(r"/articles/([A-Za-z0-9_-]+)$", url)
         if match:
             encoded = match.group(1)
             # 尝试多种解码方式
-            for prefix in ['', 'CBMi', 'CBMiq', 'CBMiK2', 'CBMiK', 'CBM']:
+            for prefix in ["", "CBMi", "CBMiq", "CBMiK2", "CBMiK", "CBM"]:
                 if prefix and not encoded.startswith(prefix):
                     continue
                 rest = encoded[len(prefix):] if prefix else encoded
-                for padding in ['', '=', '==']:
+                for padding in ["", "=", "=="]:
                     try:
-                        padded = rest.replace('-', '+').replace('_', '/') + padding
+                        padded = rest.replace("-", "+").replace("_", "/") + padding
                         decoded = base64.b64decode(padded)
                         # 查找 URL 模式
-                        url_match = re.search(b'(https?://[^\s\x00-\x1f]+)', decoded)
+                        url_match = re.search(b"(https?://[^\\s\\x00-\\x1f]+)", decoded)
                         if url_match:
-                            real = url_match.group(1).decode('utf-8', errors='ignore')
+                            real = url_match.group(1).decode("utf-8", errors="ignore")
                             if real and not real.startswith("https://news.google.com"):
                                 return real
                     except Exception:
@@ -178,6 +180,9 @@ def resolve_url(url, max_retries=3):
     return None
 
 def collect():
+    if SKIP_GOOGLE:
+        print("[info] skip google news (SANYI_SKIP_GOOGLE=1)", file=sys.stderr)
+        return []
     raw = []
     ok_sources = 0
     for q in QUERIES:
