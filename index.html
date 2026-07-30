@@ -361,7 +361,7 @@ footer{background:var(--navy);color:#a9bfd9}
 .kw-table .del-btn:hover{background:#fdecec;color:var(--red)}
 
 /* ---------- 热度公式提示 ---------- */
-.heat-info{position:relative;display:inline-flex;align-items:center;cursor:help}
+.heat-info{position:relative;display:inline-flex;align-items:center;cursor:help;z-index:30}
 .heat-info .tip-icon{
   width:16px;height:16px;border-radius:50%;background:#e8eef5;color:var(--blue);
   display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
@@ -371,8 +371,8 @@ footer{background:var(--navy);color:#a9bfd9}
 .heat-info .tip-box{
   position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.92);
   background:var(--navy);color:#dce8f5;padding:14px 18px;border-radius:8px;
-  font-size:12.5px;line-height:1.8;width:280px;box-shadow:0 8px 24px rgba(10,30,60,.35);
-  opacity:0;pointer-events:none;transition:all .25s;z-index:20;letter-spacing:.3px;
+  font-size:12.5px;line-height:1.8;width:260px;box-shadow:0 8px 24px rgba(10,30,60,.35);
+  opacity:0;pointer-events:none;transition:all .25s;z-index:100;letter-spacing:.3px;
 }
 .heat-info .tip-box::after{
   content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
