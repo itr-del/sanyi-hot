@@ -370,16 +370,18 @@ footer{background:var(--navy);color:#a9bfd9}
 .heat-info:hover .tip-icon{background:var(--blue);color:#fff}
 .heat-info .tip-box{
   position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.92);
-  background:var(--navy);color:#dce8f5;padding:14px 18px;border-radius:8px;
-  font-size:12.5px;line-height:1.8;width:260px;box-shadow:0 8px 24px rgba(10,30,60,.35);
-  opacity:0;pointer-events:none;transition:all .25s;z-index:100;letter-spacing:.3px;
+  background:var(--navy);color:#dce8f5;padding:16px 20px;border-radius:8px;
+  font-size:13px;line-height:1.65;width:280px;box-shadow:0 8px 24px rgba(10,30,60,.35);
+  opacity:0;pointer-events:none;transition:all .25s;z-index:100;letter-spacing:.4px;
 }
 .heat-info .tip-box::after{
   content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
   border:6px solid transparent;border-top-color:var(--navy);
 }
 .heat-info:hover .tip-box{opacity:1;transform:translateX(-50%) scale(1);pointer-events:auto}
-.heat-info .tip-box b{color:#ffd666}
+.heat-info .tip-box b{color:#ffd666;font-size:13.5px}
+.heat-info .tip-box .row{margin-top:8px}
+.heat-info .tip-box .row:first-child{margin-top:0}
 
 /* ---------- 响应式 ---------- */
 @media (max-width:960px){
@@ -467,7 +469,7 @@ footer{background:var(--navy);color:#a9bfd9}
     <div class="stats-grid">
       <div class="stat"><b><span id="stTotal">0</span><span class="u">条</span></b><span>收录资讯</span></div>
       <div class="stat"><b><span id="stSrc">0</span><span class="u">家</span></b><span>新闻来源</span></div>
-      <div class="stat hot"><b><span id="stHeat">0</span></b><span class="heat-info">平均热度指数<span class="tip-icon">?</span><span class="tip-box"><b>热度 = (时效分 + 关键词加分) × 权威系数</b><br>· 时效分：越新越高，每小时衰减约 1.15 分<br>· 关键词加分：命中"集采/三明/DRG"等改革热词各加 3–6 分，上限 12<br>· 权威系数：新华社/人民日报/央视等 ×1.06<br>· 最终归一化至 1–99 区间</span></span></div>
+      <div class="stat hot"><b><span id="stHeat">0</span></b><span class="heat-info">平均热度指数<span class="tip-icon">?</span><span class="tip-box"><b>热度 = (时效分 + 关键词加分) × 权威系数</b><div class="row">· 时效分：越新越高，每小时衰减约 <b>1.15 分</b></div><div class="row">· 关键词加分：命中"集采/三明/DRG"等改革热词各加 <b>3–6 分</b>，上限 <b>12</b></div><div class="row">· 权威系数：新华社/人民日报/央视等 ×<b>1.06</b></div><div class="row">· 最终归一化至 <b>1–99</b> 区间</div></span></span></div>
       <div class="stat"><b id="stTime">--:--</b><span>最新更新时间</span></div>
     </div>
   </div>
