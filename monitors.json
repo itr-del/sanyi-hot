@@ -1,0 +1,50 @@
+[
+  {
+    "name": "国家医保局",
+    "type": "web",
+    "url": "https://www.nhsa.gov.cn",
+    "enabled": true
+  },
+  {
+    "name": "健康报",
+    "type": "web",
+    "url": "https://www.jkb.com.cn",
+    "enabled": true
+  },
+  {
+    "name": "中国政府网",
+    "type": "web",
+    "url": "https://www.gov.cn",
+    "enabled": true
+  },
+  {
+    "name": "央视新闻",
+    "type": "web",
+    "url": "https://news.cctv.com",
+    "enabled": true
+  },
+  {
+    "name": "人民日报",
+    "type": "web",
+    "url": "http://www.people.com.cn",
+    "enabled": true
+  },
+  {
+    "name": "新华网",
+    "type": "web",
+    "url": "https://www.xinhuanet.com",
+    "enabled": true
+  },
+  {
+    "name": "中国医疗保险",
+    "type": "web",
+    "url": "https://www.zgybzx.com",
+    "enabled": true
+  },
+  {
+    "name": "三明医改",
+    "type": "web",
+    "url": "https://www.sanming.gov.cn",
+    "enabled": true
+  }
+]
