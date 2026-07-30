@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三医改革热点观察 — 医疗·医保·医药协同改革资讯聚合</title>
+<meta name="description" content="三医改革热点新闻聚合平台：实时聚合医疗、医保、医药协同改革资讯，按热度排行，助力政策动态追踪。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23135aa8'/%3E%3Cpath d='M27 14h10v13h13v10H37v13H27V37H14V27h13z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#135aa8; --blue-deep:#0a3d7c; --navy:#0d2f5e; --ink:#1c2733;
+  --red:#c8161d; --red-soft:#e5484d; --gold:#d9a419;
+  --bg:#eef2f8; --card:#ffffff; --line:#dbe4ef; --muted:#5b6b7f;
+  --c-yiliao:#155bb5; --c-yibao:#0b7285; --c-yiyao:#9a4a12; --c-zonghe:#5b6472;
+  --serif:'Noto Serif SC','Source Han Serif SC','STSong','SimSun',serif;
+  --sans:'Noto Sans SC','Microsoft YaHei','PingFang SC','Helvetica Neue',sans-serif;
+  --shadow:0 2px 10px rgba(13,47,94,.07);
+  --shadow-h:0 10px 28px rgba(13,47,94,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans); color:var(--ink); background:var(--bg);
+  background-image:radial-gradient(rgba(19,90,168,.055) 1px, transparent 1px);
+  background-size:22px 22px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* ---------- 顶部信息条 ---------- */
+.topbar{background:var(--navy);color:#c9d8ec;font-size:12.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:34px}
+.topbar .date{letter-spacing:.5px;font-variant-numeric:tabular-nums}
+.topbar .links{display:flex;gap:18px}
+.topbar .links a{transition:color .2s}
+.topbar .links a:hover{color:#fff}
+
+/* ---------- 报头 ---------- */
+.masthead{
+  position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(120deg,#0a3d7c 0%,#135aa8 55%,#1a6bc4 100%);
+}
+.masthead::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 2px,transparent 2px 16px);
+}
+.masthead .mark{
+  position:absolute;right:-30px;top:50%;transform:translateY(-52%);
+  font-family:var(--serif);font-weight:900;font-size:230px;line-height:1;
+  color:rgba(255,255,255,.06);user-select:none;pointer-events:none;
+}
+.masthead .wrap{position:relative;display:flex;align-items:center;justify-content:space-between;padding:30px 20px 40px;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{width:62px;height:62px;flex:none;filter:drop-shadow(0 3px 8px rgba(0,0,0,.25))}
+.brand h1{font-family:var(--serif);font-weight:900;font-size:36px;letter-spacing:3px;line-height:1.1}
+.brand h1 em{font-style:normal;color:#ffd666}
+.brand p{margin-top:7px;font-size:13.5px;color:#bcd6f2;letter-spacing:4px}
+.head-tools{display:flex;align-items:center;gap:12px}
+.status-pill{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);
+  padding:6px 13px;border-radius:999px;backdrop-filter:blur(4px);
+}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.live{background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:pulse 1.8s infinite}
+.dot.demo{background:#ffb020;box-shadow:0 0 0 0 rgba(255,176,32,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.refresh-btn{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;color:#fff;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  padding:7px 15px;border-radius:6px;transition:background .2s,transform .15s;
+}
+.refresh-btn:hover{background:rgba(255,255,255,.28)}
+.refresh-btn:active{transform:scale(.96)}
+.refresh-btn svg{width:14px;height:14px}
+.refresh-btn.spin svg{animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ---------- 导航条 ---------- */
+.nav{background:var(--blue-deep);border-top:1px solid rgba(255,255,255,.12);position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(10,45,92,.25)}
+.nav .wrap{display:flex;align-items:stretch;gap:4px;height:46px}
+.nav a{
+  display:flex;align-items:center;padding:0 22px;color:#dbe8f7;font-size:15px;letter-spacing:1px;
+  position:relative;transition:color .2s,background .2s;
+}
+.nav a::after{content:'';position:absolute;left:22px;right:22px;bottom:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .25s;transform-origin:left}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav a:hover::after{transform:scaleX(1)}
+.nav .nav-tag{margin-left:auto;display:flex;align-items:center;font-size:12.5px;color:#9db8d9;letter-spacing:2px}
+
+/* ---------- 快讯 ---------- */
+.ticker{background:#fff;border-bottom:1px solid var(--line)}
+.ticker .wrap{display:flex;align-items:center;height:44px;gap:14px}
+.ticker-badge{
+  flex:none;display:inline-flex;align-items:center;gap:6px;
+  background:var(--red);color:#fff;font-size:13px;font-weight:700;letter-spacing:2px;
+  padding:4px 12px;border-radius:3px;font-family:var(--serif);
+}
+.ticker-badge i{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.ticker-clip{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.ticker-track{display:inline-flex;white-space:nowrap;gap:0;animation:tick 46s linear infinite;will-change:transform}
+.ticker-clip:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker-track a{font-size:14px;color:#33475e;padding:0 26px;position:relative;transition:color .2s}
+.ticker-track a:hover{color:var(--blue)}
+.ticker-track a::after{content:'◆';position:absolute;right:-6px;color:var(--red);font-size:9px;top:5px;opacity:.55}
+
+/* ---------- 数据速览 ---------- */
+.stats{margin-top:20px;position:relative;z-index:10}
+.stats-grid{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-h);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat{padding:20px 24px;text-align:center;position:relative;transition:background .25s}
+.stat:first-child{border-radius:10px 0 0 10px}
+.stat:last-child{border-radius:0 10px 10px 0}
+.stat+.stat::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--line)}
+.stat:hover{background:#f6f9fd}
+.stat b{display:block;font-size:32px;font-weight:700;color:var(--blue-deep);font-variant-numeric:tabular-nums;letter-spacing:1px}
+.stat b .u{font-size:14px;font-weight:400;color:var(--muted);margin-left:3px}
+.stat span{display:block;margin-top:5px;font-size:12.5px;color:var(--muted);letter-spacing:2px}
+.stat.hot b{color:var(--red-soft)}
+
+/* ---------- 主体 ---------- */
+.main{display:grid;grid-template-columns:1fr 340px;gap:26px;padding:30px 0 10px;align-items:start}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.sec-h i{width:5px;height:20px;background:var(--red);border-radius:2px;align-self:center}
+.sec-h h2{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:2px;color:var(--navy)}
+.sec-h .sub{font-size:12.5px;color:var(--muted);letter-spacing:1px}
+.sec-h .sub.live-txt::before{content:'●';color:#3ddc84;margin-right:5px;font-size:9px;vertical-align:1px}
+
+/* 工具栏 */
+.toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  font-size:13.5px;padding:6px 16px;border-radius:999px;letter-spacing:1px;
+  border:1px solid var(--line);background:#fff;color:#41546c;
+  transition:all .2s;
+}
+.chip:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 3px 8px rgba(19,90,168,.3)}
+.toolbar .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.search{position:relative}
+.search input{
+  width:210px;padding:7px 12px 7px 32px;font-size:13.5px;border:1px solid var(--line);border-radius:6px;
+  background:#fff;outline:none;transition:border-color .2s,width .25s,box-shadow .2s;font-family:var(--sans);
+}
+.search input:focus{border-color:var(--blue);width:250px;box-shadow:0 0 0 3px rgba(19,90,168,.12)}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#8ba0b8}
+.sort-seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.sort-seg button{font-size:13px;padding:7px 13px;color:#5b6b7f;transition:all .2s;letter-spacing:1px}
+.sort-seg button.on{background:var(--navy);color:#fff}
+
+/* 新闻卡片 */
+.feed{display:flex;flex-direction:column;gap:14px}
+.card{
+  --cat:var(--c-yiliao);
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:18px 20px 16px 24px;position:relative;box-shadow:var(--shadow);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .5s ease,transform .5s ease,box-shadow .25s,border-color .25s;
+}
+.card.in{opacity:1;transform:none}
+.card::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 3px 3px 0;background:var(--cat);transition:width .2s}
+.card:hover{box-shadow:var(--shadow-h);border-color:#b9cbe2;transform:translateY(-3px)}
+.card:hover::before{width:6px}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.cat-tag{font-size:12px;color:#fff;background:var(--cat);padding:2.5px 10px;border-radius:3px;letter-spacing:2px}
+.heat-pill{
+  display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;
+  color:#d3302f;background:#fdecec;padding:2.5px 10px;border-radius:999px;font-variant-numeric:tabular-nums;
+}
+.heat-pill svg{width:12px;height:12px}
+.card h3{font-family:var(--serif);font-size:18.5px;font-weight:700;line-height:1.5;letter-spacing:.5px}
+.card h3 a{transition:color .2s}
+.card h3 a:hover{color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+.card .sum{margin-top:8px;font-size:14px;color:#54657b;line-height:1.75}
+.card .meta{margin-top:12px;display:flex;align-items:center;gap:16px;font-size:12.5px;color:#8496ab}
+.card .meta .src{color:var(--blue);font-weight:500}
+.heatbar{margin-left:auto;width:130px;height:5px;background:#eaeef5;border-radius:99px;overflow:hidden}
+.heatbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#f7b733,#e5484d);transition:width 1s .25s ease}
+.card.in .heatbar i{width:var(--w)}
+.empty{background:#fff;border:1px dashed var(--line);border-radius:8px;padding:52px 0;text-align:center;color:#8ba0b8;font-size:14.5px;letter-spacing:1px}
+.load-more{
+  margin:20px auto 6px;display:block;font-size:14px;letter-spacing:2px;color:var(--blue);
+  border:1px solid #b9cbe2;background:#fff;padding:10px 42px;border-radius:6px;transition:all .2s;
+}
+.load-more:hover{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(19,90,168,.3)}
+
+/* 骨架屏 */
+.sk{background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px 24px}
+.sk .b{height:13px;border-radius:6px;background:linear-gradient(90deg,#eef2f8 25%,#e0e8f2 50%,#eef2f8 75%);background-size:200% 100%;animation:shim 1.3s infinite;margin-bottom:11px}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* ---------- 侧栏 ---------- */
+.side{display:flex;flex-direction:column;gap:22px;position:sticky;top:66px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.panel-h{
+  display:flex;align-items:center;gap:9px;padding:15px 18px;
+  background:linear-gradient(120deg,#0d3f7d,#135aa8);color:#fff;
+}
+.panel-h h3{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:3px}
+.panel-h .flame{width:17px;height:17px;color:#ffb020}
+.panel-h .badge{margin-left:auto;font-size:11px;letter-spacing:1px;background:rgba(255,214,102,.18);color:#ffd666;border:1px solid rgba(255,214,102,.4);padding:2px 9px;border-radius:99px}
+.rank-list{list-style:none;padding:8px 0}
+.rank-list li{opacity:0;transform:translateX(14px);transition:opacity .45s,transform .45s}
+.rank-list li.in{opacity:1;transform:none}
+.rank-list a{display:flex;align-items:center;gap:11px;padding:9.5px 18px;transition:background .2s,padding-left .2s}
+.rank-list a:hover{background:#f3f7fc;padding-left:23px}
+.rk{
+  flex:none;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#fff;background:#b6c2d1;font-variant-numeric:tabular-nums;
+}
+.rk.r1{background:var(--gold)} .rk.r2{background:#8a94a6} .rk.r3{background:#b0652e}
+.rank-list .t{flex:1;font-size:13.5px;line-height:1.45;color:#33475e;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rank-list a:hover .t{color:var(--blue)}
+.rank-list .h{flex:none;font-size:13px;font-weight:700;color:var(--red-soft);font-variant-numeric:tabular-nums}
+.panel .note{padding:10px 18px 14px;font-size:11.5px;color:#93a3b6;border-top:1px dashed var(--line);line-height:1.6}
+
+/* 关键词 */
+.tags{padding:16px 18px;display:flex;flex-wrap:wrap;gap:9px}
+.tag{
+  color:#3d5a80;background:#eef4fb;border:1px solid #d7e4f4;border-radius:4px;
+  padding:4px 11px;transition:all .2s;letter-spacing:.5px;
+}
+.tag:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+
+/* 关于侧栏 */
+.about-mini{padding:16px 18px;font-size:13px;color:#54657b;line-height:1.85}
+.about-mini b{color:var(--navy)}
+
+/* ---------- 说明区 ---------- */
+.about{padding:26px 0 46px}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.about-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:8px;padding:22px 24px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+.about-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-h)}
+.about-card h4{font-family:var(--serif);font-size:16.5px;color:var(--navy);letter-spacing:2px;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.about-card h4::before{content:'';width:8px;height:8px;background:var(--red);transform:rotate(45deg)}
+.about-card p{font-size:13.5px;color:#54657b;line-height:1.9}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--navy);color:#a9bfd9}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px;padding:38px 0 30px}
+.foot-grid h5{font-family:var(--serif);color:#fff;font-size:15.5px;letter-spacing:3px;margin-bottom:14px;position:relative;padding-bottom:9px}
+.foot-grid h5::after{content:'';position:absolute;left:0;bottom:0;width:26px;height:2px;background:var(--gold)}
+.foot-grid p{font-size:13px;line-height:1.9}
+.foot-grid a{display:block;font-size:13px;padding:3.5px 0;transition:color .2s,padding-left .2s}
+.foot-grid a:hover{color:#ffd666;padding-left:5px}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);padding:15px 0;font-size:12px;color:#7d94b3;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;letter-spacing:.5px}
+
+/* 回到顶部 */
+.to-top{
+  position:fixed;right:26px;bottom:30px;width:44px;height:44px;border-radius:8px;z-index:60;
+  background:var(--blue);color:#fff;box-shadow:0 6px 18px rgba(13,47,94,.35);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(14px);pointer-events:none;transition:all .3s;
+}
+.to-top.show{opacity:1;transform:none;pointer-events:auto}
+.to-top:hover{background:var(--blue-deep);transform:translateY(-3px)}
+.to-top svg{width:18px;height:18px}
+
+/* ---------- 提交信源按钮 ---------- */
+.submit-fab{
+  position:fixed;right:26px;bottom:86px;width:48px;height:48px;border-radius:50%;z-index:60;
+  background:var(--red);color:#fff;box-shadow:0 4px 16px rgba(200,22,29,.35);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;font-size:22px;font-weight:700;
+}
+.submit-fab:hover{transform:scale(1.1);box-shadow:0 6px 22px rgba(200,22,29,.45)}
+.submit-fab svg{width:22px;height:22px}
+
+/* ---------- 模态框 ---------- */
+.modal-mask{
+  position:fixed;inset:0;z-index:200;background:rgba(10,30,60,.55);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-mask.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:12px;width:520px;max-width:92vw;max-height:85vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(10,30,60,.3);transform:translateY(20px) scale(.96);
+  transition:transform .3s;
+}
+.modal-mask.open .modal{transform:none}
+.modal-h{
+  display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;
+  border-bottom:1px solid var(--line);
+}
+.modal-h h3{font-family:var(--serif);font-size:20px;color:var(--navy);letter-spacing:2px}
+.modal-close{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#8496ab;transition:all .2s;font-size:20px}
+.modal-close:hover{background:#f0f3f7;color:var(--ink)}
+.modal-body{padding:20px 24px 24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13.5px;color:#41546c;margin-bottom:6px;font-weight:500;letter-spacing:.5px}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:6px;
+  font-size:14px;font-family:var(--sans);outline:none;transition:border-color .2s,box-shadow .2s;
+  background:#fafcfe;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px rgba(19,90,168,.1);background:#fff;
+}
+.form-group textarea{resize:vertical;min-height:72px}
+.form-group .hint{font-size:12px;color:#8496ab;margin-top:4px}
+.form-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px}
+.btn{padding:10px 24px;border-radius:6px;font-size:14px;font-weight:500;letter-spacing:1px;transition:all .2s}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(19,90,168,.25)}
+.btn-primary:hover{background:var(--blue-deep);transform:translateY(-1px)}
+.btn-ghost{background:#f0f3f7;color:#41546c}
+.btn-ghost:hover{background:#e4e9f0}
+.btn-danger{background:#fdecec;color:var(--red)}
+.btn-danger:hover{background:#fcd5d5}
+.btn-sm{padding:6px 14px;font-size:12.5px}
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-20px);z-index:300;
+  background:var(--navy);color:#fff;padding:12px 28px;border-radius:8px;font-size:14px;
+  box-shadow:0 6px 20px rgba(10,30,60,.3);opacity:0;transition:all .35s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- 管理面板 ---------- */
+.admin-panel{display:none}
+.admin-panel.visible{display:block}
+.admin-list{list-style:none;padding:0}
+.admin-list li{
+  display:flex;align-items:flex-start;gap:12px;padding:14px 0;
+  border-bottom:1px solid var(--line);
+}
+.admin-list li:last-child{border-bottom:none}
+.admin-list .info{flex:1;min-width:0}
+.admin-list .info .title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admin-list .info .meta{font-size:12px;color:#8496ab;display:flex;gap:12px;flex-wrap:wrap}
+.admin-list .info .meta a{color:var(--blue);text-decoration:underline}
+.admin-list .actions{display:flex;gap:6px;flex:none;align-items:center}
+.admin-list .status-tag{font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600}
+.admin-list .status-tag.pending{background:#fff3cd;color:#856404}
+.admin-list .status-tag.approved{background:#d4edda;color:#155724}
+.admin-list .status-tag.rejected{background:#f8d7da;color:#721c24}
+.admin-empty{text-align:center;padding:32px 0;color:#8496ab;font-size:14px}
+.admin-tabs{display:flex;align-items:center;gap:4px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:0}
+.admin-tab{padding:8px 16px;font-size:13.5px;color:#5b6b7f;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.5px;margin-bottom:-1px}
+.admin-tab:hover{color:var(--blue)}
+.admin-tab.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+.tab-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:0 5px;margin-left:4px}
+.kw-table-wrap{max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:6px}
+.kw-table{width:100%;border-collapse:collapse;font-size:13px}
+.kw-table th{background:#f6f9fd;padding:8px 12px;text-align:left;font-weight:600;color:#41546c;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1}
+.kw-table td{padding:6px 10px;border-bottom:1px solid #f0f3f7}
+.kw-table tr:last-child td{border-bottom:none}
+.kw-table input[type="text"]{width:100%;padding:5px 8px;border:1px solid var(--line);border-radius:4px;font-size:13px;font-family:monospace;outline:none;transition:border-color .2s}
+.kw-table input[type="text"]:focus{border-color:var(--blue)}
+.kw-table input[type="number"]{width:54px;padding:5px 6px;border:1px solid var(--line);border-radius:4px;font-size:13px;text-align:center;outline:none}
+.kw-table input[type="number"]:focus{border-color:var(--blue)}
+.kw-table .del-btn{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#c0c8d4;transition:all .2s;font-size:16px}
+.kw-table .del-btn:hover{background:#fdecec;color:var(--red)}
+
+/* ---------- 热度公式提示 ---------- */
+.heat-info{position:relative;display:inline-flex;align-items:center;cursor:help}
+.heat-info .tip-icon{
+  width:16px;height:16px;border-radius:50%;background:#e8eef5;color:var(--blue);
+  display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  margin-left:6px;transition:background .2s;
+}
+.heat-info:hover .tip-icon{background:var(--blue);color:#fff}
+.heat-info .tip-box{
+  position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.92);
+  background:var(--navy);color:#dce8f5;padding:14px 18px;border-radius:8px;
+  font-size:12.5px;line-height:1.8;width:280px;box-shadow:0 8px 24px rgba(10,30,60,.35);
+  opacity:0;pointer-events:none;transition:all .25s;z-index:20;letter-spacing:.3px;
+}
+.heat-info .tip-box::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:var(--navy);
+}
+.heat-info:hover .tip-box{opacity:1;transform:translateX(-50%) scale(1);pointer-events:auto}
+.heat-info .tip-box b{color:#ffd666}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:960px){
+  .main{grid-template-columns:1fr}
+  .side{position:static}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat:first-child{border-radius:10px 0 0 0}
+  .stat:nth-child(2){border-radius:0 10px 0 0}
+  .stat:nth-child(3){border-radius:0 0 0 10px}
+  .stat:last-child{border-radius:0 0 10px 0}
+  .stat:nth-child(3)::before{display:none}
+  .about-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .brand h1{font-size:28px}
+  .masthead .mark{font-size:150px}
+  .nav .nav-tag{display:none}
+  .nav a{padding:0 14px;font-size:14px}
+  .toolbar .right{margin-left:0;width:100%}
+  .search input{flex:1;width:auto}
+  .search input:focus{width:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部信息条 -->
+<div class="topbar">
+  <div class="wrap">
+    <span class="date" id="clock">加载中…</span>
+    <span class="links">
+      <a href="#news">最新报道</a><a href="#rank">热度榜</a><a href="#about">数据说明</a>
+    </span>
+  </div>
+</div>
+
+<!-- 报头 -->
+<header class="masthead" id="top">
+  <span class="mark">医</span>
+  <div class="wrap">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="#ffffff" opacity=".12"/>
+        <circle cx="32" cy="32" r="25" fill="#ffffff"/>
+        <path d="M27.5 15h9v12.5H49v9H36.5V49h-9V36.5H15v-9h12.5z" fill="#135aa8"/>
+        <polyline points="10,34 22,34 27,24 33,44 38,30 41,34 54,34" fill="none" stroke="#c8161d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <h1>三医改革<em>·</em>热点观察</h1>
+        <p>医疗 · 医保 · 医药 协同改革资讯聚合平台</p>
+      </div>
+    </div>
+    <div class="head-tools">
+      <span class="status-pill" id="statusPill" title="数据来源状态"><span class="dot demo" id="statusDot"></span><span id="statusTxt">连接中…</span></span>
+      <button class="refresh-btn" id="refreshBtn" title="重新抓取最新资讯">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+        刷新资讯
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 导航条 -->
+<nav class="nav">
+  <div class="wrap">
+    <a href="#top">首页</a>
+    <a href="#news">最新报道</a>
+    <a href="#rank">热度榜</a>
+    <a href="#about">数据说明</a>
+    <a href="javascript:void(0)" onclick="openModal('submitModal')" style="color:#ffd666">提交信源</a>
+    <span class="nav-tag">深化医改 · 协同治理 · 惠民利民</span>
+  </div>
+</nav>
+
+<!-- 快讯滚动条 -->
+<div class="ticker" id="ticker">
+  <div class="wrap">
+    <span class="ticker-badge"><i></i>快讯</span>
+    <div class="ticker-clip"><div class="ticker-track" id="tickerTrack"><a>正在加载最新快讯…</a></div></div>
+  </div>
+</div>
+
+<!-- 数据速览 -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><b><span id="stTotal">0</span><span class="u">条</span></b><span>收录资讯</span></div>
+      <div class="stat"><b><span id="stSrc">0</span><span class="u">家</span></b><span>新闻来源</span></div>
+      <div class="stat hot"><b><span id="stHeat">0</span></b><span class="heat-info">平均热度指数<span class="tip-icon">?</span><span class="tip-box"><b>热度 = (时效分 + 关键词加分) × 权威系数</b><br>· 时效分：越新越高，每小时衰减约 1.15 分<br>· 关键词加分：命中"集采/三明/DRG"等改革热词各加 3–6 分，上限 12<br>· 权威系数：新华社/人民日报/央视等 ×1.06<br>· 最终归一化至 1–99 区间</span></span></div>
+      <div class="stat"><b id="stTime">--:--</b><span>最新更新时间</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 主体 -->
+<main class="wrap main">
+  <!-- 左：新闻流 -->
+  <section id="news">
+    <div class="sec-h">
+      <i></i><h2>最新报道</h2>
+      <span class="sub live-txt" id="feedSub">实时更新 · 默认按热度排序</span>
+    </div>
+    <div class="toolbar">
+      <div class="chips" id="chips">
+        <button class="chip on" data-cat="全部">全部</button>
+        <button class="chip" data-cat="医疗">医疗</button>
+        <button class="chip" data-cat="医保">医保</button>
+        <button class="chip" data-cat="医药">医药</button>
+        <button class="chip" data-cat="综合">综合</button>
+      </div>
+      <div class="right">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="text" placeholder="搜索资讯关键词…">
+        </label>
+        <div class="sort-seg">
+          <button class="on" data-sort="heat">按热度</button>
+          <button data-sort="time">按时间</button>
+        </div>
+      </div>
+    </div>
+    <div class="feed" id="feed"></div>
+    <button class="load-more" id="loadMore" style="display:none">加载更多 ↓</button>
+  </section>
+
+  <!-- 右：侧栏 -->
+  <aside class="side" id="rank">
+    <div class="panel">
+      <div class="panel-h">
+        <svg class="flame" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s1 3.2-1.5 6C8.2 10.5 7 12.3 7 14.5A5 5 0 0 0 12 19.5a5 5 0 0 0 5-5c0-1.6-.7-2.9-1.5-4-.4 1-1 1.7-1.8 2.2.5-2.7-.2-6.6-1.7-8.7A9.6 9.6 0 0 0 12 2z"/></svg>
+        <h3>热度排行榜</h3>
+        <span class="badge">TOP 10</span>
+      </div>
+      <ol class="rank-list" id="rankList"></ol>
+      <p class="note">热度指数综合发布时效、来源权威度与改革关键词热度加权计算，满分为 99。</p>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>改革关键词</h3><span class="badge">点击检索</span></div>
+      <div class="tags" id="tagCloud"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h"><h3>关于三医改革</h3></div>
+      <div class="about-mini">
+        <b>"三医改革"</b>指医疗、医保、医药三大领域的联动改革，是深化医药卫生体制改革的核心路径。平台聚合公开新闻源，按热度呈现改革动态，仅供学习研究参考。
+      </div>
+    </div>
+  </aside>
+</main>
+
+<!-- 数据说明 -->
+<section class="about wrap" id="about">
+  <div class="sec-h"><i></i><h2>数据说明</h2><span class="sub">公开透明 · 可追溯</span></div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h4>数据来源</h4>
+      <p>资讯实时聚合自 Google News 公开新闻源（新华社、人民日报、央视新闻、健康报、国家医保局等权威渠道），经去重、分类后呈现；网络不可用时自动切换为内置演示数据。</p>
+    </div>
+    <div class="about-card">
+      <h4>热度如何计算</h4>
+      <p>以发布时间衰减为基础分（越新越高），叠加"集采、医保支付、三明医改、DRG/DIP"等改革关键词权重，并乘以来源权威系数，最终归一化为 1–99 的热度指数。</p>
+    </div>
+    <div class="about-card">
+      <h4>免责声明</h4>
+      <p>本平台为公益性资讯聚合工具，内容版权归原作者及出版机构所有；热度指数为算法计算结果，不代表任何官方评价，亦不构成政策或投资建议。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h5>三医改革 · 热点观察</h5>
+        <p>聚焦医疗、医保、医药协同发展与治理，实时追踪全国医改政策动态与地方实践，为行业从业者与研究者提供一站式资讯参考。</p>
+      </div>
+      <div>
+        <h5>平台导航</h5>
+        <a href="#news">最新报道</a>
+        <a href="#rank">热度排行榜</a>
+        <a href="#about">数据说明</a>
+        <a href="#top">回到顶部</a>
+      </div>
+      <div>
+        <h5>权威信息源</h5>
+        <a href="https://www.gov.cn" target="_blank" rel="noopener">中国政府网</a>
+        <a href="https://www.nhc.gov.cn" target="_blank" rel="noopener">国家卫生健康委员会</a>
+        <a href="https://www.nhsa.gov.cn" target="_blank" rel="noopener">国家医疗保障局</a>
+        <a href="https://www.nmpa.gov.cn" target="_blank" rel="noopener">国家药品监督管理局</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 三医改革热点观察 · 公益学习用途</span>
+      <span>数据来自公开新闻源 · 更新频率约 15 分钟</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" title="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+
+<!-- 提交信源浮动按钮 -->
+<button class="submit-fab" id="submitFab" title="提交信源">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<!-- 提交信源模态框 -->
+<div class="modal-mask" id="submitModal">
+  <div class="modal">
+    <div class="modal-h">
+      <h3>提交信源</h3>
+      <button class="modal-close" data-close="submitModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13.5px;color:#54657b;margin-bottom:16px;line-height:1.7">提交与三医改革相关的新闻链接，经管理员审核通过后将纳入聚合展示。请确保链接有效且内容相关。</p>
+      <form id="submitForm">
+        <div class="form-group">
+          <label>新闻链接 <span style="color:var(--red)">*</span></label>
+          <input type="url" id="subUrl" required placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>标题 <span style="color:var(--red)">*</span></label>
+          <input type="text" id="subTitle" required placeholder="新闻标题" maxlength="120">
+        </div>
+        <div class="form-group">
+          <label>摘要</label>
+          <textarea id="subDesc" placeholder="简要描述新闻内容（选填，最多 200 字）" maxlength="200"></textarea>
+        </div>
+        <div class="form-group">
+          <label>分类</label>
+          <select id="subCat">
+            <option value="auto">自动识别</option>
+            <option value="医疗">医疗</option>
+            <option value="医保">医保</option>
+            <option value="医药">医药</option>
+            <option value="综合">综合</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>来源名称</label>
+          <input type="text" id="subSrc" placeholder="如：新华社、健康报（选填）" maxlength="30">
+          <span class="hint">留空将尝试从链接自动识别</span>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close="submitModal">取消</button>
+          <button type="submit" class="btn btn-primary">提交审核</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- 管理员审核模态框 -->
+<div class="modal-mask" id="adminModal">
+  <div class="modal" style="width:640px">
+    <div class="modal-h">
+      <h3>信源审核</h3>
+      <button class="modal-close" data-close="adminModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- 登录区 -->
+      <div id="adminLogin">
+        <div class="form-group">
+          <label>管理员密码</label>
+          <input type="password" id="adminPwd" placeholder="输入管理密码">
+          <span class="hint">默认密码：admin2026（部署后请在代码中修改 ADMIN_PWD 常量）</span>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="adminLoginBtn">进入管理</button>
+        </div>
+      </div>
+      <!-- 审核列表 -->
+      <div id="adminContent" class="admin-panel">
+        <div class="admin-tabs">
+          <button class="admin-tab on" data-tab="review">信源审核 <span class="tab-badge" id="adminCount">0</span></button>
+          <button class="admin-tab" data-tab="keywords">关键词权重</button>
+          <button class="admin-tab" data-tab="monitors">监控信源</button>
+          <button class="admin-tab" data-tab="ssl">SSL 复核</button>
+          <button class="btn btn-ghost btn-sm" id="adminLogout" style="margin-left:auto">退出</button>
+        </div>
+        <!-- 信源审核 Tab -->
+        <div class="admin-tab-content" id="tabReview">
+          <ul class="admin-list" id="adminList"></ul>
+        </div>
+        <!-- 关键词权重 Tab -->
+        <div class="admin-tab-content" id="tabKeywords" style="display:none">
+          <p style="font-size:12.5px;color:#54657b;margin-bottom:12px;line-height:1.7">配置热度计算中各关键词/正则的加分权重。支持正则表达式（如 <code>集采|带量采购</code>）。修改后点击保存，下次刷新生效。</p>
+          <div class="kw-table-wrap">
+            <table class="kw-table" id="kwTable">
+              <thead><tr><th>关键词 / 正则</th><th style="width:70px">权重</th><th style="width:36px"></th></tr></thead>
+              <tbody id="kwBody"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+            <button class="btn btn-ghost btn-sm" id="kwAddRow">+ 添加规则</button>
+            <button class="btn btn-primary btn-sm" id="kwSave">保存配置</button>
+            <button class="btn btn-ghost btn-sm" id="kwReset">恢复默认</button>
+            <span style="margin-left:auto;font-size:12px;color:#8496ab">上限封顶：<input type="number" id="kwCap" value="12" min="1" max="50" style="width:48px;padding:3px 6px;border:1px solid var(--line);border-radius:4px;font-size:12px;text-align:center"> 分</span>
+          </div>
+        </div>
+        <!-- 监控信源 Tab -->
+        <div class="admin-tab-content" id="tabMonitors" style="display:none">
+          <p style="font-size:12.5px;color:#54657b;margin-bottom:12px;line-height:1.7">添加需要持续监控的信源。服务端会定时抓取这些信源的最新文章并纳入聚合。<b>RSS</b> 类型直接填 RSS/Atom 地址；<b>网页</b> 类型填新闻列表页 URL（服务端解析页面提取文章）；<b>微信RSS</b> 填第三方桥接服务生成的 feed 地址（如 WeRSS、feeddd）。</p>
+          <div class="kw-table-wrap" style="max-height:200px">
+            <table class="kw-table" id="monTable">
+              <thead><tr><th>名称</th><th style="width:60px">类型</th><th>地址</th><th style="width:36px">启用</th><th style="width:30px"></th></tr></thead>
+              <tbody id="monBody"></tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:#f6f9fd;border-radius:6px;border:1px solid var(--line)">
+            <div style="font-size:12.5px;font-weight:600;color:#41546c;margin-bottom:8px">添加新信源</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <input type="text" id="monName" placeholder="名称（如：国家医保局）" style="width:130px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+              <select id="monType" style="padding:6px 8px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+                <option value="rss">RSS</option>
+                <option value="web">网页</option>
+                <option value="wechat">微信RSS</option>
+              </select>
+              <input type="url" id="monUrl" placeholder="RSS 或网页地址" style="flex:1;min-width:180px;padding:6px 10px;border:1px solid var(--line);border-radius:4px;font-size:13px">
+              <button class="btn btn-primary btn-sm" id="monAdd">添加</button>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+              <span style="font-size:11.5px;color:#8496ab;line-height:24px">快捷添加：</span>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家医保局" data-type="web" data-url="https://www.nhsa.gov.cn/col/col5/index.html">国家医保局</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家卫健委" data-type="web" data-url="https://www.nhc.gov.cn/xcs/yqtb/list.shtml">国家卫健委</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="国家药监局" data-type="web" data-url="https://www.nmpa.gov.cn/yaowen/index.html">国家药监局</button>
+              <button class="btn btn-ghost btn-sm mon-preset" data-name="健康报" data-type="rss" data-url="https://www.jkb.com.cn/rss.xml">健康报</button>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px">
+            <button class="btn btn-primary btn-sm" id="monSave">保存配置</button>
+            <span style="font-size:11.5px;color:#8496ab;line-height:28px">保存后服务端下次抓取时自动生效（≤15分钟）</span>
+          </div>
+        </div>
+        <!-- SSL 复核 Tab -->
+        <div class="admin-tab-content" id="tabSsl" style="display:none">
+          <p style="font-size:12.5px;color:#54657b;margin-bottom:12px;line-height:1.7">管理因 SSL 证书问题抓取失败的政府网站。人工复核后，服务端将跳过该域名的证书验证。</p>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <button class="btn btn-primary btn-sm" id="sslRefresh">刷新列表</button>
+            <span style="font-size:11.5px;color:#8496ab;line-height:28px" id="sslStatus">加载中...</span>
+          </div>
+          <div class="kw-table-wrap" style="max-height:420px">
+            <table class="kw-table" id="sslTable">
+              <thead><tr><th>名称</th><th>地址</th><th>错误信息</th><th>发现时间</th><th style="width:120px">操作</th></tr></thead>
+              <tbody id="sslBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast 通知 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= 配置 ================= */
+const RSS_QUERIES = ['三医改革', '医保改革', '药品集采', '医疗改革 公立医院'];
+const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const KEYWORDS = ['三医联动','三明医改','集采','DRG','DIP','医保目录','异地就医','基金监管','分级诊疗','医共体','创新药','价格改革','薪酬改革','长护险','追溯码','中医药'];
+
+/* ================= 内置演示数据（网络不可用时启用） ================= */
+const DEMO = [
+ {t:'三明医改经验推广现场推进会召开 部署下一阶段协同治理重点任务',s:'会议肯定三明在医疗、医保、医药协同治理上的成效，要求各地因地制宜学习推广，健全"三医"协同发展和治理机制，推动改革走深走实。',src:'新华社',h:2,c:'医疗',heat:97,url:'https://www.gov.cn'},
+ {t:'第十一批国家组织药品集中采购中选结果全面落地执行',s:'本批集采覆盖55种药品，中选价格平均降幅超五成，医保基金与群众用药负担进一步减轻，供应保障与质量监管措施同步强化。',src:'人民日报',h:5,c:'医药',heat:94,url:'http://www.people.com.cn'},
+ {t:'DRG/DIP支付方式改革三年行动收官 统筹地区实现全覆盖',s:'全国所有统筹地区均已开展DRG或DIP实际付费，医疗机构精细化运营管理意识明显增强，基金使用效率稳步提升。',src:'国家医保局',h:8,c:'医保',heat:92,url:'https://www.nhsa.gov.cn'},
+ {t:'国家医保药品目录调整工作方案公布 创新药准入通道再优化',s:'新版目录调整进一步优化评审规则，对符合条件的创新药实行谈判准入，鼓励"以量换价"，惠及更多罕见病与肿瘤患者。',src:'央视新闻客户端',h:11,c:'医保',heat:90,url:'https://www.cctv.com'},
+ {t:'公立医院医疗服务价格动态调整试点扩围至21个省份',s:'试点地区建立以技术劳务价值为导向的价格形成机制，重点提高诊疗、手术、护理等项目价格，降低大型设备检查费用。',src:'健康报',h:15,c:'医疗',heat:88,url:'https://www.jkb.com.cn'},
+ {t:'医保基金飞行检查实现全国统筹地区全覆盖 守护群众"救命钱"',s:'今年飞行检查聚焦骨科、血液净化、心血管内科等重点领域，运用大数据筛查精准锁定疑点，已追回违规基金数亿元。',src:'中国医疗保险',h:19,c:'医保',heat:86,url:'https://www.nhsa.gov.cn'},
+ {t:'紧密型县域医共体建设提质扩面 基层就诊率稳步提升',s:'全国县域医共体实现全覆盖，人员、财务、业务统一管理，优质医疗资源下沉基层，群众就近就医获得感明显增强。',src:'新华社',h:24,c:'医疗',heat:84,url:'https://www.gov.cn'},
+ {t:'创新药械多元支付保障机制试点启动 商保目录衔接提速',s:'试点地区探索基本医保、商业健康险、医疗救助等多层次支付衔接，为高值创新药械建立更可持续的保障通道。',src:'经济日报',h:28,c:'医药',heat:82,url:'http://www.ce.cn'},
+ {t:'跨省异地就医直接结算新增5种门诊慢特病病种',s:'高血压、糖尿病等慢特病门诊费用跨省直接结算范围进一步扩大，备案流程持续简化，惠及数千万流动人口。',src:'光明日报',h:33,c:'医保',heat:80,url:'https://www.gmw.cn'},
+ {t:'集中带量采购中选药品质量监管专项行动方案印发',s:'药监部门将对中选企业实施全覆盖监督检查和不良反应重点监测，确保"降价不降质"，让群众用上放心药。',src:'国家药监局',h:38,c:'医药',heat:78,url:'https://www.nmpa.gov.cn'},
+ {t:'公立医院薪酬制度改革试点深化 薪酬总量核定机制完善',s:'试点医院探索年薪制与协议工资制，薪酬分配向临床一线、关键岗位倾斜，调动医务人员积极性。',src:'健康报',h:44,c:'医疗',heat:76,url:'https://www.jkb.com.cn'},
+ {t:'长期护理保险制度试点城市扩围 失能评估标准实现统一',s:'长护险试点城市新增15个，全国统一的失能等级评估标准落地，重度失能人员基本护理需求得到制度性保障。',src:'人民日报',h:50,c:'医保',heat:74,url:'http://www.people.com.cn'},
+ {t:'国家医学中心与区域医疗中心建设扩容 优质资源下沉加速',s:'新一批国家区域医疗中心项目落地中西部，重点补齐肿瘤、心血管、儿科等专科短板，减少跨省就医。',src:'新华社',h:56,c:'医疗',heat:72,url:'https://www.gov.cn'},
+ {t:'药品追溯码医保结算扫码应用全面推开 基金监管更精准',s:'定点医药机构结算时须扫描药品追溯码，实现"一物一码"全程可追溯，有效防范串换药品、回流药等违规行为。',src:'国家医保局',h:62,c:'医药',heat:70,url:'https://www.nhsa.gov.cn'},
+ {t:'分级诊疗信息化平台上线运行 双向转诊流程全面再造',s:'平台打通上下级医疗机构信息系统，转诊申请、床位预约、结果互认一键完成，患者少跑腿、数据多跑路。',src:'央视新闻客户端',h:68,c:'医疗',heat:68,url:'https://www.cctv.com'},
+ {t:'中医药传承创新发展综合改革试点正式启动',s:'试点地区将在中医药服务价格、医保支付、人才培养等方面先行先试，推动中西医协同发展。',src:'光明日报',h:74,c:'医疗',heat:66,url:'https://www.gmw.cn'},
+ {t:'商业健康保险与基本医保数据互通试点落地',s:'试点地区在确保数据安全前提下实现两类保险数据共享，推动"一站式"理赔结算，提升参保人体验。',src:'经济日报',h:80,c:'医保',heat:64,url:'http://www.ce.cn'},
+ {t:'基层卫生健康综合改革试验区典型经验做法发布',s:'一批试验区在编制管理、县管乡用、家庭医生签约等方面形成可复制经验，将在全国范围内推广。',src:'健康报',h:86,c:'医疗',heat:62,url:'https://www.jkb.com.cn'}
+];
+
+/* ================= 全局状态 ================= */
+const state = { all: [], cat: '全部', q: '', sort: 'heat', visible: 12, live: false };
+const $ = id => document.getElementById(id);
+
+/* ================= 工具函数 ================= */
+function fetchTimeout(url, ms){
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, { signal: c.signal }).finally(() => clearTimeout(t));
+}
+function relTime(d){
+  const diff = Date.now() - d.getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return '刚刚';
+  if (m < 60) return m + ' 分钟前';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + ' 小时前';
+  const day = Math.floor(h / 24);
+  if (day < 7) return day + ' 天前';
+  return (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+function categorize(t){
+  if (/药|集采|耗材|药械|仿制|药监|招采|追溯码/.test(t)) return '医药';
+  if (/医保|支付|DRG|DIP|异地就医|基金|长护|护理保险|结算|目录调整|商保|保险/.test(t)) return '医保';
+  if (/医院|医疗|卫健|诊疗|医共体|分级|薪酬|医学中心|医改|三明|中医药|医师|卫生/.test(t)) return '医疗';
+  return '综合';
+}
+/* 解析 Google News 包装链接，返回真实新闻 URL；解析失败返回 null */
+function resolveGoogleUrl(url) {
+  if (!url || !url.includes('news.google.com')) return url;
+
+  // 尝试 base64 解码 Google News 文章 ID
+  try {
+    const match = url.match(/\/articles\/([A-Za-z0-9_-]+)$/);
+    if (match) {
+      const encoded = match[1];
+      const prefixes = ['', 'CBMi', 'CBMiq', 'CBMiK2', 'CBMiK', 'CBM'];
+      for (const prefix of prefixes) {
+        if (prefix && !encoded.startsWith(prefix)) continue;
+        const rest = prefix ? encoded.slice(prefix.length) : encoded;
+        for (let pad = 0; pad <= 2; pad++) {
+          try {
+            const padded = rest.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat(pad);
+            const decoded = atob(padded);
+            const urlMatch = decoded.match(/(https?:\/\/[^\s\x00-\x1f]+)/);
+            if (urlMatch) {
+              let real = urlMatch[1];
+              if (real.startsWith('+')) real = real.slice(1);
+              if (real && !real.includes('news.google.com')) return real;
+            }
+          } catch (e) {}
+        }
+      }
+    }
+  } catch (e) {}
+
+  return null; // 无法解析，过滤掉
+}
+
+/* 热度关键词权重配置（可自定义） */
+const HEAT_CONFIG_KEY = 'sanyi_heat_config';
+const DEFAULT_HEAT_RULES = [
+  { pattern: '三医|三明|医改', weight: 6 },
+  { pattern: '集采|带量采购', weight: 6 },
+  { pattern: '医保', weight: 5 },
+  { pattern: 'DRG|DIP|支付方式', weight: 5 },
+  { pattern: '创新药|药械', weight: 5 },
+  { pattern: '基金|监管', weight: 4 },
+  { pattern: '分级诊疗|医共体', weight: 4 },
+  { pattern: '价格|薪酬', weight: 4 },
+  { pattern: '长护|护理保险', weight: 3 },
+  { pattern: '异地就医|结算', weight: 3 }
+];
+const DEFAULT_HEAT_CAP = 12;
+
+function getHeatConfig(){
+  try {
+    const raw = localStorage.getItem(HEAT_CONFIG_KEY);
+    if (raw){
+      const cfg = JSON.parse(raw);
+      if (cfg.rules && cfg.rules.length) return cfg;
+    }
+  } catch(e){}
+  return { rules: DEFAULT_HEAT_RULES, cap: DEFAULT_HEAT_CAP };
+}
+function saveHeatConfig(cfg){
+  localStorage.setItem(HEAT_CONFIG_KEY, JSON.stringify(cfg));
+}
+
+function calcHeat(title, date, src){
+  const h = (Date.now() - date.getTime()) / 36e5;
+  let base = Math.max(18, 95 - h * 1.15);
+  let boost = 0;
+  const cfg = getHeatConfig();
+  for (const rule of cfg.rules){
+    try { if (new RegExp(rule.pattern).test(title)) boost += rule.weight; } catch(e){}
+  }
+  boost = Math.min(boost, cfg.cap || DEFAULT_HEAT_CAP);
+  const w = /新华|人民日报|央视|政府网|经济日报|光明日报/.test(src) ? 1.06 : 1;
+  return Math.max(5, Math.min(99, Math.round((base + boost) * w)));
+}
+const CAT_COLOR = { '医疗':'var(--c-yiliao)', '医保':'var(--c-yibao)', '医药':'var(--c-yiyao)', '综合':'var(--c-zonghe)' };
+const FLAME = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s1 3.2-1.5 6C8.2 10.5 7 12.3 7 14.5A5 5 0 0 0 12 19.5a5 5 0 0 0 5-5c0-1.6-.7-2.9-1.5-4-.4 1-1 1.7-1.8 2.2.5-2.7-.2-6.6-1.7-8.7A9.6 9.6 0 0 0 12 2z"/></svg>';
+
+/* ================= 数据加载 ================= */
+async function fetchRSS(q){
+  const rss = 'https://news.google.com/rss/search?q=' + encodeURIComponent(q) + '&hl=zh-CN&gl=CN&ceid=CN:zh-Hans';
+  const r = await fetchTimeout(RSS_API + encodeURIComponent(rss), 9000);
+  const j = await r.json();
+  if (j.status !== 'ok') throw new Error('rss error');
+  return j.items || [];
+}
+async function loadLive(){
+  const results = await Promise.allSettled(RSS_QUERIES.map(fetchRSS));
+  const raw = [];
+  results.forEach(r => { if (r.status === 'fulfilled') raw.push(...r.value); });
+  if (raw.length < 3) throw new Error('too few items');
+  const seen = new Set(), items = [];
+  for (const it of raw){
+    let title = (it.title || '').trim();
+    let src = (it.author || '').trim();
+    const m = title.match(/^(.*)\s+-\s+([^-]+)$/);
+    if (m){ title = m[1].trim(); if (!src) src = m[2].trim(); }
+    if (!title) continue;
+    const key = title.slice(0, 22);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    let d = new Date(String(it.pubDate || '').replace(' ', 'T') + 'Z');
+    if (isNaN(d.getTime())) d = new Date();
+    const desc = (it.description || '').replace(/<[^>]+>/g, '').replace(/&[^;]+;/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 110);
+    const resolvedUrl = resolveGoogleUrl(it.link || '#');
+    if (!resolvedUrl) { console.warn('[warn] failed to resolve Google News URL, skipping:', it.link); continue; }
+    items.push({ t: title, s: desc || '点击标题查看原文详情。', src: src || '公开新闻源', d, c: categorize(title + desc), heat: calcHeat(title, d, src), url: resolvedUrl });
+  }
+  return items.sort((a, b) => b.heat - a.heat).slice(0, 40);
+}
+function loadDemo(){
+  const now = Date.now();
+  return DEMO.map(x => ({ t: x.t, s: x.s, src: x.src, c: x.c, heat: x.heat, url: x.url, d: new Date(now - x.h * 36e5) }))
+             .sort((a, b) => b.heat - a.heat);
+}
+/* 优先数据源：读取服务端定时任务生成的 data.json（部署后对国内访客最稳定） */
+async function loadServerData(){
+  const r = await fetchTimeout('data.json?t=' + Date.now(), 5000);
+  if (!r.ok) throw new Error('no data.json');
+  const j = await r.json();
+  if (!j.items || j.items.length < 3) throw new Error('empty data.json');
+  if (j.ts && Date.now() - j.ts > 3 * 3600 * 1000) throw new Error('stale data.json');
+  const items = j.items.map(x => ({ t: x.t, s: x.s, src: x.src, c: x.c, heat: x.heat, url: x.url, d: new Date(x.d) }));
+  return { items, updated: j.updated || null };
+}
+
+/* ================= 渲染 ================= */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .08 });
+
+function renderTicker(){
+  const top = state.all.slice().sort((a,b)=>b.heat-a.heat).slice(0, 8);
+  const html = top.map(x => `<a href="${x.url}" target="_blank" rel="noopener">${x.t}</a>`).join('');
+  $('tickerTrack').innerHTML = html + html; /* 复制一份实现无缝滚动 */
+}
+function countUp(el, target){
+  const start = performance.now(), dur = 800, from = 0;
+  function step(t){
+    const p = Math.min(1, (t - start) / dur);
+    el.textContent = Math.round(from + (target - from) * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function renderStats(){
+  countUp($('stTotal'), state.all.length);
+  countUp($('stSrc'), new Set(state.all.map(x => x.src)).size);
+  countUp($('stHeat'), Math.round(state.all.reduce((s, x) => s + x.heat, 0) / (state.all.length || 1)));
+  const n = new Date();
+  $('stTime').textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+}
+function filtered(){
+  let list = state.all;
+  if (state.cat !== '全部') list = list.filter(x => x.c === state.cat);
+  if (state.q){
+    const q = state.q.toLowerCase();
+    list = list.filter(x => (x.t + x.s + x.src).toLowerCase().includes(q));
+  }
+  list = list.slice();
+  if (state.sort === 'heat') list.sort((a, b) => b.heat - a.heat);
+  else list.sort((a, b) => b.d - a.d);
+  return list;
+}
+function renderFeed(){
+  const list = filtered();
+  const shown = list.slice(0, state.visible);
+  const feed = $('feed');
+  if (!shown.length){
+    feed.innerHTML = '<div class="empty">未找到相关资讯，请更换关键词或分类试试</div>';
+    $('loadMore').style.display = 'none';
+    return;
+  }
+  feed.innerHTML = shown.map((x, i) => `
+    <article class="card" style="--cat:${CAT_COLOR[x.c]};transition-delay:${(i % 6) * 60}ms">
+      <div class="card-top">
+        <span class="cat-tag">${x.c}</span>
+        <span class="heat-pill">${FLAME}热度 ${x.heat}</span>
+      </div>
+      <h3><a href="${x.url}" target="_blank" rel="noopener">${x.t}</a></h3>
+      <p class="sum">${x.s}</p>
+      <div class="meta">
+        <span class="src">${x.src}</span>
+        <span>${relTime(x.d)}</span>
+        <div class="heatbar"><i style="--w:${x.heat}%"></i></div>
+      </div>
+    </article>`).join('');
+  feed.querySelectorAll('.card').forEach(el => io.observe(el));
+  $('loadMore').style.display = list.length > state.visible ? 'block' : 'none';
+}
+function renderRank(){
+  const top = state.all.slice().sort((a,b)=>b.heat-a.heat).slice(0, 10);
+  const ol = $('rankList');
+  ol.innerHTML = top.map((x, i) => `
+    <li style="transition-delay:${i * 55}ms">
+      <a href="${x.url}" target="_blank" rel="noopener">
+        <span class="rk ${i < 3 ? 'r' + (i + 1) : ''}">${i + 1}</span>
+        <span class="t">${x.t}</span>
+        <span class="h">${x.heat}</span>
+      </a>
+    </li>`).join('');
+  ol.querySelectorAll('li').forEach(el => io.observe(el));
+}
+function renderTags(){
+  const counts = KEYWORDS.map(k => [k, state.all.filter(x => x.t.includes(k)).length]).filter(x => x[1] > 0).sort((a,b)=>b[1]-a[1]);
+  $('tagCloud').innerHTML = counts.length
+    ? counts.map(([k, n]) => `<button class="tag" data-k="${k}" style="font-size:${12 + Math.min(n * 2, 7)}px">${k} ${n}</button>`).join('')
+    : '<span style="font-size:12.5px;color:#93a3b6">暂无高频关键词</span>';
+}
+function renderAll(){
+  renderTicker(); renderStats(); renderFeed(); renderRank(); renderTags();
+}
+function setStatus(mode, updatedLabel){
+  state.live = mode !== 'demo';
+  const n = new Date(), p = v => String(v).padStart(2, '0');
+  const hm = p(n.getHours()) + ':' + p(n.getMinutes());
+  $('statusDot').className = 'dot ' + (mode === 'demo' ? 'demo' : 'live');
+  $('statusTxt').textContent = mode === 'demo' ? '演示数据' : '实时数据';
+  if (mode === 'server'){
+    $('statusPill').title = '服务端定时聚合，每 15 分钟自动更新';
+    $('feedSub').textContent = '服务端聚合 · 更新于 ' + (updatedLabel || hm) + ' · 每 15 分钟自动更新';
+  } else if (mode === 'live'){
+    $('statusPill').title = '已连接公开新闻源，浏览器端实时更新';
+    $('feedSub').textContent = '实时聚合 · 更新于 ' + hm + ' · 每 10 分钟自动刷新';
+  } else {
+    $('statusPill').title = '网络暂不可用，当前展示内置演示数据';
+    $('feedSub').textContent = '演示数据 · 每 10 分钟自动尝试刷新';
+  }
+}
+function showSkeleton(){
+  $('feed').innerHTML = Array.from({length: 4}, () => `
+    <div class="sk"><div class="b" style="width:34%"></div><div class="b" style="width:88%;height:18px"></div><div class="b" style="width:72%"></div><div class="b" style="width:45%;margin-bottom:0"></div></div>`).join('');
+}
+
+/* ================= 加载入口 ================= */
+async function loadBest(){
+  try {
+    const sd = await loadServerData();
+    state.all = sd.items;
+    setStatus('server', sd.updated);
+    return;
+  } catch (e) {}
+  try {
+    state.all = await loadLive();
+    setStatus('live');
+    return;
+  } catch (e) {}
+  state.all = loadDemo();
+  setStatus('demo');
+}
+async function init(){
+  showSkeleton();
+  await loadBest();
+  state.visible = 12;
+  renderAll();
+}
+
+/* ================= 交互 ================= */
+$('chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  b.classList.add('on');
+  state.cat = b.dataset.cat; state.visible = 12;
+  renderFeed();
+});
+document.querySelector('.sort-seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  document.querySelectorAll('.sort-seg button').forEach(c => c.classList.remove('on'));
+  b.classList.add('on');
+  state.sort = b.dataset.sort; state.visible = 12;
+  renderFeed();
+});
+let sT;
+$('searchInput').addEventListener('input', e => {
+  clearTimeout(sT);
+  sT = setTimeout(() => { state.q = e.target.value.trim(); state.visible = 12; renderFeed(); }, 220);
+});
+$('tagCloud').addEventListener('click', e => {
+  const b = e.target.closest('.tag'); if (!b) return;
+  $('searchInput').value = b.dataset.k;
+  state.q = b.dataset.k; state.visible = 12;
+  renderFeed();
+  $('news').scrollIntoView({ behavior: 'smooth' });
+});
+$('loadMore').addEventListener('click', () => { state.visible += 12; renderFeed(); });
+let refreshing = false;
+async function refreshData(){
+  if (refreshing) return;
+  refreshing = true;
+  const btn = $('refreshBtn');
+  btn.classList.add('spin');
+  await loadBest();
+  state.visible = 12;
+  renderAll();
+  btn.classList.remove('spin');
+  refreshing = false;
+}
+$('refreshBtn').addEventListener('click', refreshData);
+
+/* 自动刷新：页面打开期间每 10 分钟抓取一次最新资讯（页面不可见时跳过，避免无效请求） */
+const AUTO_REFRESH_MS = 10 * 60 * 1000;
+setInterval(() => { if (!document.hidden) refreshData(); }, AUTO_REFRESH_MS);
+
+/* 时钟 */
+function tickClock(){
+  const n = new Date();
+  const wk = '日一二三四五六'[n.getDay()];
+  const p = v => String(v).padStart(2, '0');
+  $('clock').textContent = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日 星期${wk} ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* 回到顶部 */
+const toTop = $('toTop');
+addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > 420), { passive: true });
+toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ================= 信源提交 & 管理员审核 ================= */
+const ADMIN_PWD = 'admin2026'; /* 部署后请修改此密码 */
+const STORAGE_KEY = 'sanyi_submissions';
+
+function getSubmissions(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e){ return []; } }
+function saveSubmissions(arr){ localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+/* Toast */
+let toastTimer;
+function showToast(msg){
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+/* Modal open/close */
+function openModal(id){ $(id).classList.add('open'); }
+function closeModal(id){ $(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+document.querySelectorAll('.modal-mask').forEach(mask => mask.addEventListener('click', e => { if (e.target === mask) closeModal(mask.id); }));
+
+/* 提交按钮 */
+$('submitFab').addEventListener('click', () => openModal('submitModal'));
+
+/* 提交表单 */
+$('submitForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const url = $('subUrl').value.trim();
+  const title = $('subTitle').value.trim();
+  const desc = $('subDesc').value.trim();
+  const cat = $('subCat').value;
+  const src = $('subSrc').value.trim();
+  if (!url || !title) return;
+  const subs = getSubmissions();
+  subs.push({
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    url, title, desc: desc || '用户提交的信源链接。',
+    cat: cat === 'auto' ? categorize(title + desc) : cat,
+    src: src || extractDomain(url),
+    status: 'pending',
+    time: new Date().toISOString()
+  });
+  saveSubmissions(subs);
+  $('submitForm').reset();
+  closeModal('submitModal');
+  showToast('提交成功，等待管理员审核');
+});
+
+function extractDomain(url){
+  try { const u = new URL(url); return u.hostname.replace(/^www\./, ''); } catch(e){ return '用户提交'; }
+}
+
+/* 管理员面板 */
+let adminAuth = false;
+function checkHash(){
+  if (location.hash === '#admin') openModal('adminModal');
+}
+addEventListener('hashchange', checkHash);
+
+$('adminLoginBtn').addEventListener('click', () => {
+  if ($('adminPwd').value === ADMIN_PWD){
+    adminAuth = true;
+    $('adminLogin').style.display = 'none';
+    $('adminContent').classList.add('visible');
+    renderAdminList();
+  } else {
+    showToast('密码错误');
+  }
+});
+$('adminPwd').addEventListener('keydown', e => { if (e.key === 'Enter') $('adminLoginBtn').click(); });
+$('adminLogout').addEventListener('click', () => {
+  adminAuth = false;
+  $('adminLogin').style.display = '';
+  $('adminContent').classList.remove('visible');
+  $('adminPwd').value = '';
+  closeModal('adminModal');
+  location.hash = '';
+});
+
+function renderAdminList(){
+  const subs = getSubmissions();
+  $('adminCount').textContent = subs.filter(s => s.status === 'pending').length;
+  if (!subs.length){
+    $('adminList').innerHTML = '<li class="admin-empty">暂无提交记录</li>';
+    return;
+  }
+  $('adminList').innerHTML = subs.slice().reverse().map(s => `
+    <li>
+      <div class="info">
+        <div class="title">${esc(s.title)}</div>
+        <div class="meta">
+          <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url).slice(0, 50)}</a>
+          <span>${s.cat}</span>
+          <span>${s.src}</span>
+          <span>${new Date(s.time).toLocaleString('zh-CN', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="status-tag ${s.status}">${s.status === 'pending' ? '待审核' : s.status === 'approved' ? '已通过' : '已拒绝'}</span>
+        </div>
+      </div>
+      <div class="actions">
+        ${s.status === 'pending' ? `<button class="btn btn-primary btn-sm" data-approve="${s.id}">通过</button><button class="btn btn-danger btn-sm" data-reject="${s.id}">拒绝</button>` : ''}
+      </div>
+    </li>`).join('');
+}
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+$('adminList').addEventListener('click', e => {
+  const aBtn = e.target.closest('[data-approve]');
+  const rBtn = e.target.closest('[data-reject]');
+  if (!aBtn && !rBtn) return;
+  const id = (aBtn || rBtn).dataset.approve || (rBtn || aBtn).dataset.reject;
+  const action = aBtn ? 'approved' : 'rejected';
+  const subs = getSubmissions();
+  const item = subs.find(s => s.id === id);
+  if (item){
+    item.status = action;
+    saveSubmissions(subs);
+    renderAdminList();
+    if (action === 'approved'){
+      mergeApproved(item);
+      showToast('已通过，已加入展示列表');
+    } else {
+      showToast('已拒绝');
+    }
+  }
+});
+
+/* 管理面板 Tab 切换 */
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('on'));
+    tab.classList.add('on');
+    const target = tab.dataset.tab;
+    $('tabReview').style.display = target === 'review' ? '' : 'none';
+    $('tabKeywords').style.display = target === 'keywords' ? '' : 'none';
+    $('tabMonitors').style.display = target === 'monitors' ? '' : 'none';
+    $('tabSsl').style.display = target === 'ssl' ? '' : 'none';
+    if (target === 'ssl') loadSslPending();
+    if (target === 'keywords') renderKwTable();
+    if (target === 'monitors') renderMonTable();
+  });
+});
+
+/* 关键词权重配置管理 */
+function renderKwTable(){
+  const cfg = getHeatConfig();
+  $('kwCap').value = cfg.cap || DEFAULT_HEAT_CAP;
+  $('kwBody').innerHTML = cfg.rules.map((r, i) => `
+    <tr data-idx="${i}">
+      <td><input type="text" value="${esc(r.pattern)}" data-field="pattern"></td>
+      <td><input type="number" value="${r.weight}" min="1" max="20" data-field="weight"></td>
+      <td><button class="del-btn" data-del="${i}" title="删除">&times;</button></td>
+    </tr>`).join('');
+}
+$('kwAddRow').addEventListener('click', () => {
+  const cfg = getHeatConfig();
+  cfg.rules.push({ pattern: '', weight: 3 });
+  saveHeatConfig(cfg);
+  renderKwTable();
+  /* 滚动到底部并聚焦新行 */
+  const wrap = document.querySelector('.kw-table-wrap');
+  wrap.scrollTop = wrap.scrollHeight;
+  const inputs = $('kwBody').querySelectorAll('tr:last-child input[data-field="pattern"]');
+  if (inputs.length) inputs[0].focus();
+});
+$('kwBody').addEventListener('click', e => {
+  const delBtn = e.target.closest('[data-del]');
+  if (!delBtn) return;
+  const cfg = getHeatConfig();
+  cfg.rules.splice(parseInt(delBtn.dataset.del), 1);
+  saveHeatConfig(cfg);
+  renderKwTable();
+});
+$('kwSave').addEventListener('click', () => {
+  const rows = $('kwBody').querySelectorAll('tr');
+  const rules = [];
+  rows.forEach(row => {
+    const pattern = row.querySelector('[data-field="pattern"]').value.trim();
+    const weight = parseInt(row.querySelector('[data-field="weight"]').value) || 3;
+    if (pattern) rules.push({ pattern, weight: Math.max(1, Math.min(20, weight)) });
+  });
+  const cap = parseInt($('kwCap').value) || DEFAULT_HEAT_CAP;
+  saveHeatConfig({ rules, cap: Math.max(1, Math.min(50, cap)) });
+  showToast('关键词权重已保存，刷新后生效');
+  /* 立即重算当前数据的热度 */
+  state.all.forEach(x => { x.heat = calcHeat(x.t, x.d, x.src); });
+  state.all.sort((a, b) => b.heat - a.heat);
+  renderAll();
+});
+$('kwReset').addEventListener('click', () => {
+  localStorage.removeItem(HEAT_CONFIG_KEY);
+  renderKwTable();
+  showToast('已恢复默认配置');
+  state.all.forEach(x => { x.heat = calcHeat(x.t, x.d, x.src); });
+  state.all.sort((a, b) => b.heat - a.heat);
+  renderAll();
+});
+
+/* ================= 监控信源管理 ================= */
+const MONITORS_KEY = 'sanyi_monitors';
+function getMonitors(){ try { return JSON.parse(localStorage.getItem(MONITORS_KEY) || '[]'); } catch(e){ return []; } }
+function saveMonitors(arr){ localStorage.setItem(MONITORS_KEY, JSON.stringify(arr)); }
+
+function renderMonTable(){
+  const mons = getMonitors();
+  if (!mons.length){
+    $('monBody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:#8496ab;padding:16px">暂无监控信源，请在下方添加</td></tr>';
+    return;
+  }
+  const typeLabel = { rss: 'RSS', web: '网页', wechat: '微信' };
+  const typeColor = { rss: '#155bb5', web: '#0b7285', wechat: '#07c160' };
+  $('monBody').innerHTML = mons.map((m, i) => `
+    <tr>
+      <td style="font-weight:500;white-space:nowrap">${esc(m.name)}</td>
+      <td><span style="font-size:11px;padding:2px 6px;border-radius:3px;color:#fff;background:${typeColor[m.type] || '#666'}">${typeLabel[m.type] || m.type}</span></td>
+      <td style="font-size:12px;color:#5b6b7f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px" title="${esc(m.url)}">${esc(m.url)}</td>
+      <td style="text-align:center"><input type="checkbox" data-toggle="${i}" ${m.enabled !== false ? 'checked' : ''}></td>
+      <td><button class="del-btn" data-mondel="${i}" title="删除">&times;</button></td>
+    </tr>`).join('');
+}
+
+$('monAdd').addEventListener('click', () => {
+  const name = $('monName').value.trim();
+  const type = $('monType').value;
+  const url = $('monUrl').value.trim();
+  if (!name || !url){ showToast('请填写名称和地址'); return; }
+  const mons = getMonitors();
+  if (mons.some(m => m.url === url)){ showToast('该地址已存在'); return; }
+  mons.push({ id: Date.now().toString(36), name, type, url, enabled: true });
+  saveMonitors(mons);
+  $('monName').value = ''; $('monUrl').value = '';
+  renderMonTable();
+  showToast('已添加：' + name);
+});
+
+document.querySelectorAll('.mon-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const name = btn.dataset.name, type = btn.dataset.type, url = btn.dataset.url;
+    const mons = getMonitors();
+    if (mons.some(m => m.url === url)){ showToast('该信源已存在'); return; }
+    mons.push({ id: Date.now().toString(36), name, type, url, enabled: true });
+    saveMonitors(mons);
+    renderMonTable();
+    showToast('已添加：' + name);
+  });
+});
+
+$('monBody').addEventListener('click', e => {
+  const delBtn = e.target.closest('[data-mondel]');
+  if (delBtn){
+    const mons = getMonitors();
+    mons.splice(parseInt(delBtn.dataset.mondel), 1);
+    saveMonitors(mons);
+    renderMonTable();
+    return;
+  }
+  const tog = e.target.closest('[data-toggle]');
+  if (tog){
+    const mons = getMonitors();
+    mons[parseInt(tog.dataset.toggle)].enabled = tog.checked;
+    saveMonitors(mons);
+  }
+});
+
+$('monSave').addEventListener('click', () => {
+  /* 将配置同步写入 data.json 同目录的 monitors.json（部署后服务端读取） */
+  const mons = getMonitors().filter(m => m.enabled !== false);
+  /* 本地存储已保存，服务端通过 monitors.json 读取 */
+  try {
+    const blob = new Blob([JSON.stringify(mons, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'monitors.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e){}
+  showToast('配置已保存并导出 monitors.json（请上传到网站目录）');
+});
+
+/* 将审核通过的信源合并到当前展示数据 */
+function mergeApproved(item){
+  const exists = state.all.some(x => x.url === item.url);
+  if (exists) return;
+  state.all.unshift({
+    t: item.title, s: item.desc, src: item.src,
+    c: item.cat, heat: 75, url: item.url, d: new Date(item.time)
+  });
+  state.all.sort((a, b) => b.heat - a.heat);
+  renderAll();
+}
+
+/* 页面加载时合并所有已通过的提交 */
+function mergeAllApproved(){
+  const subs = getSubmissions().filter(s => s.status === 'approved');
+  subs.forEach(item => {
+    if (!state.all.some(x => x.url === item.url)){
+      state.all.push({
+        t: item.title, s: item.desc, src: item.src,
+        c: item.cat, heat: 70, url: item.url, d: new Date(item.time)
+      });
+    }
+  });
+  if (subs.length) state.all.sort((a, b) => b.heat - a.heat);
+}
+
+/* 在 init 完成后合并 */
+const _origInit = init;
+init = async function(){
+  await _origInit();
+  mergeAllApproved();
+  renderAll();
+  checkHash();
+};
+
+/* ================= SSL 复核管理 ================= */
+const SSL_API_BASE = '/api/admin/monitors';
+
+async function apiCall(path, opts = {}){
+  const res = await fetch(SSL_API_BASE + path, {
+    ...opts,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Pwd': 'admin2026',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) throw new Error('API error: ' + res.status);
+  return res.json();
+}
+
+async function loadSslPending(){
+  const tbody = $('sslBody');
+  const status = $('sslStatus');
+  try {
+    const data = await apiCall('/pending');
+    const list = data.pending || [];
+    status.textContent = `共 ${list.length} 个待复核`;
+    if (!list.length){
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#8496ab;padding:24px">暂无 SSL 失败记录</td></tr>';
+      return;
+    }
+    tbody.innerHTML = list.map(item => `
+      <tr>
+        <td>${item.name || '-'}</td>
+        <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+        <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${item.error}">${item.error}</td>
+        <td>${item.time || '-'}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" data-ssl-approve="${item.url}">批准</button>
+          <button class="btn btn-ghost btn-sm" data-ssl-reject="${item.url}">忽略</button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (e){
+    status.textContent = '加载失败: ' + e.message;
+  }
+}
+
+async function approveSsl(url, name){
+  try {
+    await apiCall('/approve', {
+      method: 'POST',
+      body: JSON.stringify({url, name: name || url})
+    });
+    toast('已批准，下次抓取将跳过 SSL 验证');
+    loadSslPending();
+  } catch (e){
+    toast('批准失败: ' + e.message);
+  }
+}
+
+async function revokeSsl(url){
+  try {
+    await apiCall('/revoke', {
+      method: 'POST',
+      body: JSON.stringify({url})
+    });
+    toast('已撤销批准');
+    loadSslPending();
+  } catch (e){
+    toast('撤销失败: ' + e.message);
+  }
+}
+
+$('sslRefresh')?.addEventListener('click', loadSslPending);
+$('sslBody')?.addEventListener('click', e => {
+  const aBtn = e.target.closest('[data-ssl-approve]');
+  const rBtn = e.target.closest('[data-ssl-reject]');
+  if (!aBtn && !rBtn) return;
+  const url = (aBtn || rBtn).dataset.sslApprove || (rBtn || aBtn).dataset.sslReject;
+  const row = (aBtn || rBtn).closest('tr');
+  const name = row?.children[0]?.textContent?.trim() || url;
+  if (aBtn){
+    approveSsl(url, name);
+  } else {
+    if (confirm('确定要忽略此 SSL 错误吗？域名将不会进入批准列表。')) revokeSsl(url);
+  }
+});
+
+init();
+</script>
+</body>
+</html>
